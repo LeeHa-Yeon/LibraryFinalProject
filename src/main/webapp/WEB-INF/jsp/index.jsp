@@ -15,6 +15,8 @@
 </head>
 
 <body>
-<h1> 하연이의 도서관 홈페이지 </h1>
+<center><h1> 도서관 홈페이지 </h1>
+<button>입장하기</button>
+</center>
 </body>
 </html>
