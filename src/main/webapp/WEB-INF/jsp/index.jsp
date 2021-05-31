@@ -11,23 +11,47 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width",initial-scale="1">
-    <link rel="stylesheet" href="/css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/custom.min.css">
     <title> hayeon final Project </title>
 </head>
 
 <body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href=""> <img src = "./logo.png" width="120" height="50" alt=""><span style="color:#FFFFFF;"></span></a>
+
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="./"> <span style="color:#FFFFFF;">WELCOME</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <center>
-    <h1> 스프링 기말 텀 프로젝트</h1>
-    하연이의 도서관 홈페이지<br><br>
-    <input type=button value=입장하기 id=loginBtn>
-    <script type="text/javascript">
-        document.getElementById("loginBtn").onclick = function() {
-            location.href = 'login'; //페이지 이동문법
-        }
-    </script>
+    <div class="container" style="padding-top: 180px">
+        <h1> HAYEON Library</h1><br>
+        2017301063 이하연 스프링 기말 텀 프로젝트<br><br>
+        <img src = "./hi.png" alt="">
+    </div>
+
+    <div class="navbar-nav align-top= col-3" style="padding-top: 40px">
+        <input type=button value=이용하기 id=loginBtn>
+        <script type="text/javascript">
+            document.getElementById("loginBtn").onclick = function() {
+                location.href = 'login'; //페이지 이동문법
+            }
+        </script>
+    </div>
 </center>
+
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/popper.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+
 </body>
 </html>
+

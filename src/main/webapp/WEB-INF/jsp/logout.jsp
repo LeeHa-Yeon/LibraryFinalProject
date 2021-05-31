@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-
+<%
+session.invalidate();
+%>
 </body>
 </html>
