@@ -15,7 +15,6 @@ public class UserDto {
     private String isOverdue;
     private int borrowedLimit;
     private String REGDATE;
-    private ArrayList<String> lendBookList;
 
     public int getNum() {
         return num;
@@ -113,11 +112,4 @@ public class UserDto {
         this.REGDATE = REGDATE;
     }
 
-    public ArrayList<String> getLendBookList() {
-        return lendBookList;
-    }
-
-    public void setLendBookList(ArrayList<String> lendBookList) {
-        this.lendBookList = lendBookList;
-    }
 }

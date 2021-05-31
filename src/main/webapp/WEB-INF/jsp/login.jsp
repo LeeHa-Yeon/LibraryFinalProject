@@ -45,7 +45,7 @@
 <div class="container" style="padding-top: 200px">
     <div class="col-lg-4">
         <div class="jumbotron" style="padding-top: 30px">
-            <form method="post" action="loginAction">
+            <form method="get" action="loginAction">
                 <h3 style="text-align: center; ">로그인 화면</h3>
                 <div class="form-group" style="padding-top: 40px">
                     <input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">

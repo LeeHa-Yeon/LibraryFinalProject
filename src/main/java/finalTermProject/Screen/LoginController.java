@@ -19,11 +19,10 @@ import java.io.PrintWriter;
 public class LoginController {
     @Autowired
     UserDao userDao;
-    UserDto userDto;
 
     @RequestMapping("/join")
     public ModelAndView join(ModelAndView mav){
-        mav.setViewName("join");  // login.jsp
+        mav.setViewName("join");  // join.jsp
         return mav;
     }
 
@@ -42,7 +41,7 @@ public class LoginController {
         if (id.equals("") || pwd.equals("")|| pwdCheck.equals("")|| name.equals("") || email.equals("") || phone.equals("")|| address.equals("")|| ssn.equals("")) {
             PrintWriter script = response.getWriter();
             script.println("<script>");
-            script.println("alert('입력안된사항 있음');");
+            script.println("alert('There are items that have not been entered.');");
             script.println("history.back();");
             script.println("</script>");
             script.close();
@@ -51,14 +50,14 @@ public class LoginController {
             if (result == -1) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('이미 존재하는 아이디');");
+                script.println("alert('The ID that already exists.');");
                 script.println("history.back();");
                 script.println("</script>");
                 script.close();
             }else{
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("location.href = 'main'");
+                script.println("location.href = './login'");
                 script.println("</script>");
             }
         }
@@ -68,27 +67,10 @@ public class LoginController {
 
     @RequestMapping("/login")
     public ModelAndView login(ModelAndView mav){
-        mav.setViewName("login");  // login.jsp
+        mav.setViewName("login");
         return mav;
     }
 
-    @RequestMapping("/main")
-    public ModelAndView main(ModelAndView mav){
-        mav.setViewName("main");  // login.jsp
-        return mav;
-    }
-
-    @RequestMapping("/bbs")
-    public ModelAndView bbs(ModelAndView mav){
-        mav.setViewName("bbs");  // login.jsp
-        return mav;
-    }
-
-    @RequestMapping("/find_info")
-    public ModelAndView find_info(ModelAndView mav){
-        mav.setViewName("find_info");  // login.jsp
-        return mav;
-    }
 
     @RequestMapping("/loginAction") // 경로
     public ModelAndView loginAction(ModelAndView mav, HttpServletResponse response, HttpServletRequest request, @RequestParam(value = "userID", required = false) String id,
@@ -96,11 +78,21 @@ public class LoginController {
         mav.setViewName("loginAction");
         if (id.equals("") || pwd.equals("")) {
             PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('모두 입력해주세요.');");
-            script.println("history.back();");
-            script.println("</script>");
-            script.close();
+            if (id.equals("")) {
+                System.out.println("들어갔니222");
+                script.println("<script>");
+                script.println("alert('Please enter your ID');");
+                script.println("history.back();");
+                script.println("</script>");
+                script.close();
+            }else if (pwd.equals("")) {
+                System.out.println("들어갔니");
+                script.println("<script>");
+                script.println("alert('Please enter your PASSWORD');");
+                script.println("history.back();");
+                script.println("</script>");
+                script.close();
+            }
         } else {
             String userID = null;
             HttpSession session = request.getSession();
@@ -110,8 +102,8 @@ public class LoginController {
             if(userID!=null){
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('이미 로그인이 되어있습니다.');");
-                script.println("location.href='main'");
+                script.println("alert('You are already logged in.');");
+                script.println("location.href='bookList'");
                 script.println("</script>");
             }
             int result = userDao.login(id, pwd);
@@ -119,28 +111,27 @@ public class LoginController {
                 session.setAttribute("userID", id);
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('login success 로그인이 성공했습니다.');");
-                script.println("location.href='main'");
+                script.println("location.href='bookList'");
                 script.println("</script>");
                 script.close();
             } else if (result == 0) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('비밀번호가 틀렸습니다.');");
+                script.println("alert('The password is wrong.');");
                 script.println("history.back();");
                 script.println("</script>");
                 script.close();
             } else if (result == -1) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('아이디가 틀렸습니다.');");
+                script.println("alert('ID does not exist.');");
                 script.println("history.back();");
                 script.println("</script>");
                 script.close();
             } else if (result == -2) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('데이터베이스 에러');");
+                script.println("alert('Database error');");
                 script.println("history.back();");
                 script.println("</script>");
                 script.close();
@@ -153,9 +144,20 @@ public class LoginController {
         PrintWriter script = response.getWriter();
         script.println("<script>");
         script.println("alert('로그아웃되었습니다.');");
-        script.println("location.href='main'");
+        script.println("location.href='login'");
         script.println("</script>");
         mav.setViewName("logout");
         return mav;
     }
+
+    @RequestMapping("/find_info")
+    public ModelAndView find_info(ModelAndView mav){
+        mav.setViewName("find_info");
+        return mav;
+    }
+
+
+
+
+
 }
