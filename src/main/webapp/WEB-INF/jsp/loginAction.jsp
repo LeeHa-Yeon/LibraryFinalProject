@@ -8,17 +8,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <%
-//    request.setCharacterEncoding("UTF-8");
-//
-//    String userID=null;
-//    String userPassword=null;
-//    if(request.getParameter("userID")==null)
-//        userID="";
-//    else
-//        userID=request.getParameter("userID");
-//    if(request.getParameter("userPassword")==null)
-//        userPassword="";
-//    else
-//        userPassword=request.getParameter("userPassword");
 
 %>

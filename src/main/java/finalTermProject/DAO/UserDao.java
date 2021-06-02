@@ -6,8 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class UserDao {
     // dao : 데이터베이스 접근 객체 약자
@@ -183,5 +185,60 @@ public class UserDao {
         // 데이터베이스 오류
         return -1;
     }
+
+    //    member의 대여가능횟수 차감
+    public int lendCntChange(String userID,int changeCnt){
+        String SQL = "update member set borrowedLimit=? where ID=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,changeCnt);
+            pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 멤버 연체 상태 변경하기
+    public int changeOverdueState(String userID){
+        String SQL = "update member set isOverdue=? where ID=?";
+        try{
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd");
+            cal.add(cal.DATE,+7);
+            String overdueDate = format1.format(cal.getTime());
+
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,overdueDate);
+            pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 멤버 정상 상태 변경하기
+    public int changeNormalState(String userID){
+        String SQL = "update member set isOverdue=? where ID=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,"정상");
+            pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+
+
+
+
 
 }

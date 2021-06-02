@@ -130,8 +130,9 @@
                     <a class="right carousel-control" href="#carouselExampleSlidesOnly" data-slid="next">
                         <span class="glyphicon-chevron-right"></span>
                     </a>
-                        <a href="lendAction" class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
-                        <a href="bookAction" class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>
+                    <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>" class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
+                    <a onclick="return confirm('예약하시겠습니까 ?')" href="bookAction?num=<%=bookDto.getBook_num()%>" class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>
+
                     </div>
                 <div style="float: left; margin-top: 40px; margin-left:50px; width: 50%;">
                     <table class="table table-striped"
@@ -140,37 +141,37 @@
                         <tbody>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">번호</td>
-                            <td><%= bookDto.getBook_num()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_num()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">제목</td>
-                            <td><%= bookDto.getBook_title()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_title()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">isbn</td>
-                            <td><%= bookDto.getBook_ISBN()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_ISBN()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">저자</td>
-                            <td><%= bookDto.getBook_author()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_author()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">출판사</td>
-                            <td><%= bookDto.getBook_publisher()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_publisher()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">카테고리</td>
-                            <td><%= bookDto.getBook_category()%>
+                            <td style=" padding-left:25px;text-align: left;"><%= bookDto.getBook_category()%>
                             </td>
                         </tr>
                         <tr>
                             <td style="background-color: #ced4da; text-align: center;">상태</td>
-                            <td style="color: #a71d2a "><%= bookDto.getIs_book_borrowed()%>
+                            <td style="color: #a71d2a; padding-left:25px;text-align: left; "><%= bookDto.getIs_book_borrowed()%>
                             </td>
                         </tr>
 
@@ -178,6 +179,27 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="card bg-light mt-3">
+        <div class="card-header">
+            <h5>리뷰<small></small></h5>
+        </div>
+        <div class="card-body">
+        </div>
+
+        <%-- 댓글 입력 시작--%>
+        <div class="card bg-light mt-3">
+            <form method="get" action="./commentAction.jsp">
+                <div class="card-body">
+                    <label>댓글달기</label>
+                    <textarea name="comment" class="form-control col-12" maxlength="50"
+                              style="height: 30px;"></textarea>
+                    <input type="hidden" name="ID" value="id">
+                    <input type="hidden" name="userID" value="comment">
+                </div>
+                <button class="btn btn-light form-control col-12" type="submit">입력</button>
+            </form>
         </div>
     </div>
 <center><a href="bookList" class="btn btn-dark pull-right" style="margin: 30px auto">Home</a></center>
