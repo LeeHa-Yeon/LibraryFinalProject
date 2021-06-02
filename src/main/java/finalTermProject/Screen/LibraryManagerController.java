@@ -18,9 +18,9 @@ public class LibraryManagerController {
         return mav;
     }
 
-    @RequestMapping("/bbs")
-    public ModelAndView bbs(ModelAndView mav){
-        mav.setViewName("bbs");
+    @RequestMapping("/bookShow")
+    public ModelAndView bookShow(ModelAndView mav){
+        mav.setViewName("bookShow");
         return mav;
     }
 }

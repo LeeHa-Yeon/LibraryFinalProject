@@ -86,6 +86,7 @@
                     <a class="dropdown-item" href="myLendList">내 대여 상태</a>
                     <a class="dropdown-item" href="logout">로그아웃</a>
                     <a class="dropdown-item" href="signout">회원 탈퇴</a>
+
                 </div>
             </li>
         </ul>

@@ -9,7 +9,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
 <%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="org.apache.catalina.User" %>
 
 <!DOCTYPE html>
 <html>
@@ -105,63 +104,66 @@
 </nav>
 <div class = "container" style="padding-top: 50px">
     <div class="row">
-        <table class = "table table-striped" style="padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th colspan="3" style="background-color: #ced4da; text-align: center;">내 정보 보기</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >아이디</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getID()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >이름</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getName()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >이메일</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getEmail()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >번호</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getPhone()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >SSN</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getSSN()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >주소</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getAddress()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >포인트</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getPoint()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >상태</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getIsOverdue()%></td>
-            </tr>
-            <tr>
-                <td style="width: 35%; text-align: center;" >빌릴 수 있는 횟수</td>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getBorrowedLimit()%></td>
-            </tr>
-            </tbody>
-        </table>
-        <%
-            if(userID != null && userID.equals(myInfo.getID())){
-        %>
-        <a href = "modifyInfo?userID=<%=userID%>" class="btn btn-dark float-none mr-auto" >정보 수정</a>
-
-        <%
-            }
-        %>
+        <form method="post" action="modifyInfoAction?userID=<%=userID%>">
+            <table class = "table table-striped" style=" table-layout: fixed; padding-top: 40px; border: 1px solid #dddddd">
+                <thead>
+                <tr>
+                    <th colspan="5" style="background-color: #ced4da; text-align: center;">내 정보 수정</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                </tr>
+                <tr >
+                    <td style="width: 35%; text-align: center;" >아이디</td>
+                    <td style="text-align: left;" colspan="4"><%=myInfo.getID()%></td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >이름</td>
+                    <td style="text-align: left;" colspan="4">
+                        <input type="text" class="form-control" placeholder="이름" name="modifyName" maxlength="100" value="<%=myInfo.getName()%>">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >이메일</td>
+                    <td style="text-align: left;" colspan="4">
+                        <input type="text" class="form-control" placeholder="이메일" name="modifyEmail" maxlength="100" value="<%=myInfo.getEmail()%>">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >번호</td>
+                    <td style="text-align: left;" colspan="4">
+                        <input type="text" class="form-control" placeholder="번호" name="modifyPhone" maxlength="100" value="<%=myInfo.getPhone()%>">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >SSN</td>
+                    <td style="text-align: left;" colspan="4">
+                        <input type="text" class="form-control" placeholder="SSN" name="modifySSN" maxlength="100" value="<%=myInfo.getSSN()%>">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >주소</td>
+                    <td style="text-align: left;" colspan="4">
+                        <input type="text" class="form-control" placeholder="주소" name="modifyAddress" maxlength="100" value="<%=myInfo.getAddress()%>">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 35%; text-align: center;" >포인트</td>
+                    <td style="text-align: left;" colspan="4"><%=myInfo.getPoint()%></td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; text-align: center;" >상태</td>
+                    <td style="text-align: left;" colspan="4"><%=myInfo.getIsOverdue()%></td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; text-align: center;" >빌릴 수 있는 횟수</td>
+                    <td style="text-align: left;" colspan="4"><%=myInfo.getBorrowedLimit()%></td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-dark" style="float: none; margin:0 auto" value="저장하기">
+        </form>
     </div>
 
 </div>

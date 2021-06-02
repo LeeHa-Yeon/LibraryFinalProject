@@ -20,6 +20,7 @@ public class LoginController {
     @Autowired
     UserDao userDao;
 
+    // 회원가입
     @RequestMapping("/join")
     public ModelAndView join(ModelAndView mav){
         mav.setViewName("join");  // join.jsp
@@ -64,7 +65,7 @@ public class LoginController {
         return mav;
     }
 
-
+    // 로그인
     @RequestMapping("/login")
     public ModelAndView login(ModelAndView mav){
         mav.setViewName("login");
@@ -139,6 +140,8 @@ public class LoginController {
         }
         return mav;
     }
+
+    // 로그아웃
     @RequestMapping("/logout")
     public ModelAndView logout(ModelAndView mav, HttpServletResponse response) throws IOException {
         PrintWriter script = response.getWriter();
@@ -150,13 +153,75 @@ public class LoginController {
         return mav;
     }
 
+    // 아이디 비번 찾기
     @RequestMapping("/find_info")
     public ModelAndView find_info(ModelAndView mav){
         mav.setViewName("find_info");
         return mav;
     }
 
+    // 아이디 찾기
+    @RequestMapping("/findIDAction")
+    public ModelAndView findIDAction(ModelAndView mav){
+        mav.setViewName("findIDAction");
+        return mav;
+    }
+    // 비번 찾기
+    @RequestMapping("/findPWDAction")
+    public ModelAndView findPWDAction(ModelAndView mav){
+        mav.setViewName("findPWDAction");
+        return mav;
+    }
 
+
+    // 내 정보 화면
+    @RequestMapping("/myInfo")
+    public ModelAndView myInfo(ModelAndView mav){
+        mav.setViewName("myInfo");
+        return mav;
+    }
+
+
+    // 내 정보 수정
+    @RequestMapping("/modifyInfo")
+    public ModelAndView modifyInfo(ModelAndView mav){
+        mav.setViewName("modifyInfo");
+        return mav;
+    }
+
+    @RequestMapping("/modifyInfoAction")
+    public ModelAndView modifyInfoAction(ModelAndView mav){
+        mav.setViewName("modifyInfoAction");
+        return mav;
+    }
+
+    // 비밀번호 변경
+    @RequestMapping("/changePwd")
+    public ModelAndView changePwd(ModelAndView mav){
+        mav.setViewName("changePwd");
+        return mav;
+    }
+    @RequestMapping("/changePwdAction")
+    public ModelAndView changePwdAction(ModelAndView mav){
+        mav.setViewName("changePwdAction");
+        return mav;
+    }
+
+
+    // 내 대여 상태
+    @RequestMapping("/myLendList")
+    public ModelAndView myLendList(ModelAndView mav){
+        mav.setViewName("myLendList");
+        return mav;
+    }
+
+
+    // 회원 탈퇴
+    @RequestMapping("/signout")
+    public ModelAndView signout(ModelAndView mav, HttpServletResponse response) throws IOException {
+        mav.setViewName("signout");
+        return mav;
+    }
 
 
 

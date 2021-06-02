@@ -53,15 +53,15 @@
                         <h4 style="text-align: center; ">아이디 찾기</h4>
                         <div>
                             <div class="form-group" style="padding-top: 35px">
-                                <input type="text" class="form-control" placeholder="이름" name="userName"
+                                <input type="text" class="form-control" placeholder="이름" name="inputName"
                                        maxlength="20">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="전화번호" name="userPhone"
+                                <input type="text" class="form-control" placeholder="전화번호" name="inputPhone"
                                        maxlength="20">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="주민등록번호" name="userSSN"
+                                <input type="text" class="form-control" placeholder="주민등록번호" name="inputSSN"
                                        maxlength="20">
                             </div>
                             <div class="row">
@@ -79,15 +79,15 @@
                         <h4 style="text-align: center; ">비밀번호 찾기</h4>
                         <div>
                             <div class="form-group" style="padding-top: 35px">
-                                <input type="text" class="form-control" placeholder="아이디" name="userID"
+                                <input type="text" class="form-control" placeholder="아이디" name="inputID"
                                        maxlength="20">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="전화번호" name="userPhone"
+                                <input type="text" class="form-control" placeholder="전화번호" name="inputPhone"
                                        maxlength="20">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="주민등록번호" name="userSSN"
+                                <input type="text" class="form-control" placeholder="주민등록번호" name="inputSSN"
                                        maxlength="20">
                             </div>
                         </div>

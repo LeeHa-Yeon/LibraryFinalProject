@@ -1,5 +1,6 @@
 package finalTermProject.DAO;
 
+import finalTermProject.DTO.BookDto;
 import finalTermProject.DTO.UserDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -71,6 +72,116 @@ public class UserDao {
         }
         // 데이터베이스 오류
         return -2;
+    }
+
+    public UserDto getUserInfo(String myID) {
+        String SQL = "select * from member where ID = ?";
+        try {
+
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, myID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                UserDto userDto = new UserDto();
+                userDto.setNum(rs.getInt(1));
+                userDto.setID(rs.getString(2));
+                userDto.setPwd(rs.getString(3));
+                userDto.setName(rs.getString(4));
+                userDto.setEmail(rs.getString(5));
+                userDto.setPhone(rs.getString(6));
+                userDto.setSSN(rs.getString(7));
+                userDto.setAddress(rs.getString(8));
+                userDto.setPoint(rs.getInt(9));
+                userDto.setIsOverdue(rs.getString(10));
+                userDto.setBorrowedLimit(rs.getInt(11));
+                return userDto;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int modifyInfo(String userID, String modifyName, String modifyEmail, String modifyPhone, String modifySSN, String modifyAddress){
+        String SQL = "update member set name=?,email=?,phone=?,SSN=?,address=? where ID=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,modifyName);
+            pstmt.setString(2,modifyEmail);
+            pstmt.setString(3,modifyPhone);
+            pstmt.setString(4,modifySSN);
+            pstmt.setString(5,modifyAddress);
+            pstmt.setString(6,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    public String findID(String inputName, String inputPhone, String inputSSN){
+        String SQL = "select ID from member where name =? and phone =? and SSN = ? ";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,inputName);
+            pstmt.setString(2,inputPhone);
+            pstmt.setString(3,inputSSN);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return "";
+    }
+
+    public String findPWD(String inputID, String inputPhone, String inputSSN){
+        String SQL = "select pwd from member where ID =? and phone =? and SSN = ? ";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,inputID);
+            pstmt.setString(2,inputPhone);
+            pstmt.setString(3,inputSSN);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return "";
+    }
+
+    public int signout(String userID){
+        String SQL = "delete from member where ID = ?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    public int changePwd(String userID, String oldPwd, String newPwd){
+        String SQL = "update member set pwd=? where ID=? and pwd=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,newPwd);
+            pstmt.setString(2,userID);
+            pstmt.setString(3,oldPwd);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
     }
 
 }

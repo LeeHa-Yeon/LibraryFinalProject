@@ -102,4 +102,28 @@ public class BookDao {
         return false;
     }
 
+    public BookDto getBookInfo(int bookNum) {
+        String SQL = "select * from book where num = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bookNum);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                BookDto bookDto = new BookDto();
+                bookDto.setBook_num(rs.getInt(1));
+                bookDto.setBook_ISBN(rs.getInt(2));
+                bookDto.setBook_title(rs.getString(3));
+                bookDto.setBook_author(rs.getString(4));
+                bookDto.setBook_publisher(rs.getString(5));
+                bookDto.setBook_category(rs.getString(6));
+                bookDto.setIs_book_borrowed(rs.getString(7));
+                bookDto.setIs_book_reservation(rs.getString(8));
+                return bookDto;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

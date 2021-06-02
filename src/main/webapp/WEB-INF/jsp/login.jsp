@@ -51,7 +51,7 @@
                     <input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
                 </div>
                 <div class="form-group" style="padding-bottom: 30px">
-                    <input type="text" class="form-control" placeholder="비밀번호" name="userPWD" maxlength="20">
+                    <input type="password" class="form-control" placeholder="비밀번호" name="userPWD" maxlength="20">
                 </div>
                 <input type="submit" class="btn btn-dark form-control" value="로그인">
             </form>
