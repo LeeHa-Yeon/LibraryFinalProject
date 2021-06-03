@@ -48,13 +48,16 @@
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li>
-                <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+                <a class="nav-link" href="./managerMain"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">도서목록</span></a>
+                <a class="nav-link" href="./managerMain"> <span style="color:#FFFFFF;">전체도서목록</span></a>
             </li>
             <li>
-                <a class="nav-link" href="./applyList"> <span style="color:#FFFFFF;">신청목록</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+                <a class="nav-link" href="./managerUserApplyList"> <span style="color:#FFFFFF;">고객신청목록</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+            </li>
+            <li>
+                <a class="nav-link" href="./managerUserLendList"> <span style="color:#FFFFFF;">고객대여목록</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
             </li>
         </ul>
 
@@ -79,14 +82,12 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown"><%--dropdown 버튼인데 아래쪽에 목록이 보이는 버튼--%>
                 <a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown"><%--토글(누르면 사리지고 생기는 것)--%>
-                    <span style="color:#FFFFFF;">마이페이지</span>
+                    <span style="color:#FFFFFF;">관리자</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown">
-                    <a class="dropdown-item" href="myInfo">내 정보 보기</a>
+                    <a class="dropdown-item" href="managerInfo">내 정보 보기</a>
                     <a class="dropdown-item" href="changePwd">비밀번호 변경</a>
-                    <a class="dropdown-item" href="myLendList">내 대여 상태</a>
                     <a class="dropdown-item" href="logout">로그아웃</a>
-                    <a class="dropdown-item" href="signout">회원 탈퇴</a>
 
                 </div>
             </li>
@@ -99,7 +100,10 @@
 
 <div class="container" style="padding-top: 50px">
     <div class="row">
+        <div>
         <h3> 도서 목록 화면</h3>
+            <a class="btn btn-dark pull-right" data-toggle="modal" href="#modifyModal"  style="margin: 30px auto">도서등록</a>
+        </div>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -121,7 +125,7 @@
             <tr>
                 <td><%= list.get(i).getBook_num()%>
                 </td>
-                <td><a href="bookShow?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
+                <td><a href="managerShowBook?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
                 </a></td>
                 <td><%= list.get(i).getBook_ISBN()%>
                 </td>
@@ -139,18 +143,65 @@
             %>
             </tbody>
         </table>
+        <div style="margin: 10px auto">
         <%
             if (pageNumber != 1) {
         %>
-        <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left">이전</a>
+        <a href="managerMain?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left"><</a>
         <%
             }
             if (bookDao.nextPage(pageNumber + 1)) {
         %>
-        <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">다음</a>
+        <a href="managerMain?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">></a>
         <%
             }
         %>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal">새 도서 추가</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="managerAddBook" method="post">
+                        <div class="form-group">
+                            <label>isbn</label>
+                            <input type="text" name="newIsbn" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>책 제목</label>
+                            <input type="text" name="newTitle" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>저자</label>
+                            <input type="text" name="newAuthor" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>출판사</label>
+                            <input type="text" name="newPublisher" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>카테고리</label>
+                            <input type="text" name="newCategory" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>사진</label>
+                            <input type="text" name="newImage" class="form-control" maxlength="40">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            <button type="submit" class="btn btn-primary">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -160,3 +211,5 @@
 <script src="./js/bootstrap.min.js"></script>
 </body>
 </html>
+
+

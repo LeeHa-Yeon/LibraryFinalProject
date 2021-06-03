@@ -110,11 +110,19 @@ public class LoginController {
             int result = userDao.login(id, pwd);
             if (result == 1) {
                 session.setAttribute("userID", id);
-                PrintWriter script = response.getWriter();
-                script.println("<script>");
-                script.println("location.href='bookList'");
-                script.println("</script>");
-                script.close();
+                if(id.equals("manager")) {
+                    PrintWriter script = response.getWriter();
+                    script.println("<script>");
+                    script.println("location.href='managerMain'");
+                    script.println("</script>");
+                    script.close();
+                }else{
+                    PrintWriter script = response.getWriter();
+                    script.println("<script>");
+                    script.println("location.href='bookList'");
+                    script.println("</script>");
+                    script.close();
+                }
             } else if (result == 0) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");

@@ -9,6 +9,7 @@ public class BookDto {
     private String book_category;   // 카테고리
     private String is_book_borrowed;  // 대여가능여부
     private String is_book_reservation;  // 예약중인지 아닌지
+    private String book_image;  // 책 이미지
 
 
     public int getBook_num() {
@@ -73,6 +74,14 @@ public class BookDto {
 
     public void setIs_book_reservation(String is_book_reservation) {
         this.is_book_reservation = is_book_reservation;
+    }
+
+    public String getBook_image() {
+        return book_image;
+    }
+
+    public void setBook_image(String book_image) {
+        this.book_image = book_image;
     }
 
 

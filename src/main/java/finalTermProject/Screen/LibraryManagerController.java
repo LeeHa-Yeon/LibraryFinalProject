@@ -12,15 +12,72 @@ public class LibraryManagerController {
     @Autowired
     UserDao userDao;
 
-    @RequestMapping("/bookList")
-    public ModelAndView bookList(ModelAndView mav){
-        mav.setViewName("bookList");
+
+    // 메인페이지이자 도서목록
+    @RequestMapping("/managerMain")
+    public ModelAndView managerMain(ModelAndView mav){
+        mav.setViewName("managerMain");
         return mav;
     }
 
-    @RequestMapping("/bookShow")
-    public ModelAndView bookShow(ModelAndView mav){
-        mav.setViewName("bookShow");
+    // 도서 정보 보기
+    @RequestMapping("/managerShowBook")
+    public ModelAndView managerShowBook(ModelAndView mav){
+        mav.setViewName("managerShowBook");
         return mav;
     }
+
+    // 새 도서 등록
+    @RequestMapping("/managerAddBook")
+    public ModelAndView managerAddBook(ModelAndView mav){
+        mav.setViewName("managerAddBook");
+        return mav;
+    }
+
+    // 도서 삭제
+    @RequestMapping("/managerDeleteBook")
+    public ModelAndView managerDeleteBook(ModelAndView mav){
+        mav.setViewName("managerDeleteBook");
+        return mav;
+    }
+
+    // 도서 수정
+    @RequestMapping("/managerModifyBook")
+    public ModelAndView managerModifyBook(ModelAndView mav){
+        mav.setViewName("managerModifyBook");
+        return mav;
+    }
+
+    // 도서 수정 액션
+    @RequestMapping("/managerModifyBookAction")
+    public ModelAndView managerModifyBookAction(ModelAndView mav){
+        mav.setViewName("managerModifyBookAction");
+        return mav;
+    }
+
+    // 모든 고객 대여 리스트
+    @RequestMapping("/managerUserApplyList")
+    public ModelAndView managerUserApplyList(ModelAndView mav){
+        mav.setViewName("managerUserApplyList");
+        return mav;
+    }
+
+    // 고객 신청 리스트
+    @RequestMapping("/managerUserLendList")
+    public ModelAndView managerUserLendList(ModelAndView mav){
+        mav.setViewName("managerUserLendList");
+        return mav;
+    }
+
+    // 관리자 정보
+    @RequestMapping("/managerInfo")
+    public ModelAndView managerInfo(ModelAndView mav){
+        mav.setViewName("managerInfo");
+        return mav;
+    }
+
+
+
+
+
 }

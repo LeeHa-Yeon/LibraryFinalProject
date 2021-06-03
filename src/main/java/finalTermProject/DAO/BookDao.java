@@ -123,6 +123,7 @@ public class BookDao {
                 bookDto.setBook_category(rs.getString(6));
                 bookDto.setIs_book_borrowed(rs.getString(7));
                 bookDto.setIs_book_reservation(rs.getString(8));
+                bookDto.setBook_image(rs.getString(10));
                 return bookDto;
             }
         }catch (Exception e){
@@ -244,6 +245,68 @@ public class BookDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 새 도서 등록하기
+    public int addNewBook(int newIsbn, String newTitle, String newAuthor, String newPublisher, String newCategory,String newImage){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar currentTime = Calendar.getInstance();
+
+        String SQL = "insert into book (isbn,book_title,book_author,book_publisher,book_category,book_is_borrowed,book_is_reservation,REGDATE,picture) values (?,?,?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, newIsbn);
+            pstmt.setString(2, newTitle);
+            pstmt.setString(3, newAuthor);
+            pstmt.setString(4, newPublisher);
+            pstmt.setString(5, newCategory);
+            pstmt.setString(6, "대출가능");
+            pstmt.setString(7, "예약가능");
+            pstmt.setString(8, format.format(currentTime.getTime()));
+            pstmt.setString(9, newImage);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return -2; // 데이터베이스 오류
+    }
+
+    //  도서 삭제하기
+    public int deleteBook(int bookID){
+        String SQL = "delete from book where num=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 책 정보 수정하기
+    public int modifyBook(int bookID,int m_isbn, String m_bookTitle, String m_bookAuthor, String m_bookPublisher, String m_bookCategory, String m_borrowedState,String m_reservationState,String m_image){
+        String SQL = "update book set isbn=?,book_title=?,book_author=?,book_publisher=?,book_category=?,book_is_borrowed=?,book_is_reservation=?,picture=? where num=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,m_isbn);
+            pstmt.setString(2,m_bookTitle);
+            pstmt.setString(3,m_bookAuthor);
+            pstmt.setString(4,m_bookPublisher);
+            pstmt.setString(5,m_bookCategory);
+            pstmt.setString(6,m_borrowedState);
+            pstmt.setString(7,m_reservationState);
+            pstmt.setString(8,m_image);
+            pstmt.setInt(9,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
     }
 
 }
