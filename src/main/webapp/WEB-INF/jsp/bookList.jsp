@@ -11,6 +11,8 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DTO.UserDto" %>
+<%@ page import="finalTermProject.DAO.UserDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -31,6 +33,7 @@
 <body>
 <%
     String userID = null;
+    BookDao bookDao = new BookDao();
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
@@ -38,6 +41,7 @@
     if (request.getParameter("pageNumber") != null) {
         pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     }
+
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -98,6 +102,164 @@
 </nav>
 
 <div class="container" style="padding-top: 50px">
+
+    <div class="row">
+        <h3> 인기 도서 Top5 </h3>
+
+        <p align="right"> 대여를 많이 한 순서 </p>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">제목</th>
+                <th style="background-color: #ced4da; text-align: center;">저자</th>
+                <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">대여수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                ArrayList<BookDto> popularList = bookDao.popularBookTop5();
+                for (int i = 0; i < popularList.size(); i++) {
+            %>
+            <tr>
+                <td><%= i + 1 %>위
+                </td>
+                <%
+                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
+                %>
+                <td>
+                    <a href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
+                        <img
+                                src="./new.png" width="25" height="25" alt="">
+
+                    </a></td>
+                <%
+                } else {
+                %>
+                <td class="clickTitle"><a
+                        href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
+                </a>
+
+                </td>
+
+                <%
+                    }
+                %>
+
+                <td><%= popularList.get(i).getBook_author()%>
+                </td>
+                <td><%= popularList.get(i).getIs_book_borrowed()%>
+                </td>
+                <td><%= popularList.get(i).getLendCnt()%>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="row">
+        <h3> 추천 도서 Top3 </h3>
+        <p align="left"> 추천을 많이 받은 순서 </p>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">제목</th>
+                <th style="background-color: #ced4da; text-align: center;">저자</th>
+                <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">추천수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                ArrayList<BookDto> recommendList = bookDao.recommendedBookTop3();
+                for (int i = 0; i < recommendList.size(); i++) {
+            %>
+            <tr>
+                <td><%= i + 1 %>위
+                </td>
+                <%
+                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
+                %>
+                <td>
+                    <a href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
+                        <img src="./new.png" width="25" height="25" alt="">
+
+                    </a></td>
+                <%
+                } else {
+                %>
+                <td class="clickTitle"><a
+                        href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
+                </a>
+
+                </td>
+
+                <%
+                    }
+                %>
+
+                <td><%= recommendList.get(i).getBook_author()%>
+                </td>
+                <td><%= recommendList.get(i).getIs_book_borrowed()%>
+                </td>
+                <td><%= recommendList.get(i).getLikes()%>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row">
+        <h3> 우수 회원 Top3 </h3>
+        <p align="left"> 도서를 가장 많이한 회원 </p>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">아이디</th>
+                <th style="background-color: #ced4da; text-align: center;">이름</th>
+                <th style="background-color: #ced4da; text-align: center;">회원등급</th>
+                <th style="background-color: #ced4da; text-align: center;">포인트</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                UserDao userDao = new UserDao();
+                ArrayList<UserDto> excellentUserInfo = userDao.ExcellentUserTop3();
+                for (int i = 0; i < excellentUserInfo.size(); i++) {
+            %>
+            <tr>
+                <td><%= i + 1 %>위
+                </td>
+                <td><%= excellentUserInfo.get(i).getID()%> 님
+                </td>
+                <td><%= excellentUserInfo.get(i).getName()%>
+                </td>
+                <td><%= excellentUserInfo.get(i).getGrade()%>
+                </td>
+                <td><%= excellentUserInfo.get(i).getPoint()%>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+
+    </div>
+
+
     <div class="row">
         <h3> 도서 목록 화면</h3>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
@@ -110,19 +272,34 @@
                 <th style="background-color: #ced4da; text-align: center;">출판사</th>
                 <th style="background-color: #ced4da; text-align: center;">카테고리</th>
                 <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">조회수</th>
             </tr>
             </thead>
             <tbody>
             <%
-                BookDao bookDao = new BookDao();
                 ArrayList<BookDto> list = bookDao.getList(pageNumber);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
                 <td><%= list.get(i).getBook_num()%>
                 </td>
+                <%
+                    if (bookDao.getDate().substring(0, 10).equals(list.get(i).getRegisteDate().substring(0, 10))) {
+                %>
                 <td><a href="bookShow?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
+                    <img src="./new.png" width="25" height="25" alt="">
                 </a></td>
+                <%
+                } else {
+                %>
+                <td><a href="bookShow?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
+                </a>
+
+                </td>
+
+                <%
+                    }
+                %>
                 <td><%= list.get(i).getBook_ISBN()%>
                 </td>
                 <td><%= list.get(i).getBook_author()%>
@@ -132,6 +309,8 @@
                 <td><%= list.get(i).getBook_category()%>
                 </td>
                 <td><%= list.get(i).getIs_book_borrowed()%>
+                </td>
+                <td><%= list.get(i).getViews()%>
                 </td>
             </tr>
             <%

@@ -11,6 +11,7 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.awt.print.Book" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,7 @@
 
 <body>
 <%
+    BookDao bookDao = new BookDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -41,6 +43,7 @@
         script.println("</script>");
     }
     BookDto bookDto = new BookDao().getBookInfo(bookID);
+    bookDao.plusViews(bookID, bookDto.getViews());
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -103,7 +106,8 @@
 <div class="container" style="padding-top: 50px">
     <div class="card bg-light mt-3">
         <div class="card-header">
-            <h4><%=bookDto.getBook_title()%> 도서 상세 정보 </h4>
+            <h4><%=bookDto.getBook_title()%> > 상세 정보 </h4>
+            <p>총 대여 횟수 : <%= bookDto.getLendCnt()%></p>
         </div>
         <div class="card-body">
             <div class="row">
@@ -130,10 +134,12 @@
                     <a class="right carousel-control" href="#carouselExampleSlidesOnly" data-slid="next">
                         <span class="glyphicon-chevron-right"></span>
                     </a>
-                    <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>" class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
-                    <a onclick="return confirm('예약하시겠습니까 ?')" href="bookAction?num=<%=bookDto.getBook_num()%>" class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>
+                    <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>"
+                       class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
+                    <a onclick="return confirm('예약하시겠습니까 ?')" href="bookAction?num=<%=bookDto.getBook_num()%>"
+                       class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>
 
-                    </div>
+                </div>
                 <div style="float: left; margin-top: 40px; margin-left:50px; width: 50%;">
                     <table class="table table-striped"
                            style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
@@ -177,6 +183,12 @@
 
                         </tbody>
                     </table>
+                    <center>
+                        <a onclick="return confirm('추천하시겠습니까 ?')"
+                           href="likeAction?num=<%=bookDto.getBook_num()%>"
+                           class="btn btn-outline-primary pull-right mx-lg-5" style="margin:0px auto"><img
+                                src="./like.png" width="30" height="30" alt="">  <%= bookDto.getLikes()%></a>
+                    </center>
                 </div>
             </div>
         </div>
@@ -202,7 +214,7 @@
             </form>
         </div>
     </div>
-<center><a href="bookList" class="btn btn-dark pull-right" style="margin: 30px auto">Home</a></center>
+    <center><a href="bookList" class="btn btn-dark pull-right" style="margin: 30px auto">Home</a></center>
 
 
 </div>

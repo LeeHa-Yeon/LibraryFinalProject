@@ -15,6 +15,7 @@ public class UserDto {
     private String isOverdue;
     private int borrowedLimit;
     private String REGDATE;
+    private String grade;
 
     public int getNum() {
         return num;
@@ -112,4 +113,11 @@ public class UserDto {
         this.REGDATE = REGDATE;
     }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
 }

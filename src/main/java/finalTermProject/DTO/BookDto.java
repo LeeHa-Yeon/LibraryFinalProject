@@ -9,7 +9,11 @@ public class BookDto {
     private String book_category;   // 카테고리
     private String is_book_borrowed;  // 대여가능여부
     private String is_book_reservation;  // 예약중인지 아닌지
+    private String registeDate;
     private String book_image;  // 책 이미지
+    private int views;
+    private int lendCnt;
+    private int likes;
 
 
     public int getBook_num() {
@@ -84,5 +88,35 @@ public class BookDto {
         this.book_image = book_image;
     }
 
+    public String getRegisteDate() {
+        return registeDate;
+    }
 
+    public void setRegisteDate(String registeDate) {
+        this.registeDate = registeDate;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public int getLendCnt() {
+        return lendCnt;
+    }
+
+    public void setLendCnt(int lendCnt) {
+        this.lendCnt = lendCnt;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 }

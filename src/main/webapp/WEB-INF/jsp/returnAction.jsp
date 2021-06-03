@@ -81,6 +81,7 @@
         int deadlineDate = bookDao.dateCompareTo(currentDate, returnDate.getReturn_date().substring(0,11));
         if(deadlineDate == 1) { // 연체
             userDao.changeOverdueState(userID);
+            userDao.changePoint(userID,myInfo.getPoint()-3);
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('반납 날짜가 지난 연체된 도서입니다. 일주일간 책을 못빌립니다. 반납되었습니다.')");
@@ -88,6 +89,7 @@
             script.println("</script>");
 
         }else{ // 정상
+            userDao.changePoint(userID,myInfo.getPoint()+3);
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('정상적으로 반납처리가 되었습니다. 감사합니다.')");

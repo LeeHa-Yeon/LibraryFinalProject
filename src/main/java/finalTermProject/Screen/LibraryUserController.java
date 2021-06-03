@@ -47,4 +47,34 @@ public class LibraryUserController {
         return mav;
     }
 
+    // 연장하기
+    @RequestMapping("/extendAction")
+    public ModelAndView extendAction(ModelAndView mav){
+        mav.setViewName("extendAction");
+        return mav;
+    }
+
+    // 신청 리스트 보기
+    @RequestMapping("/applyList")
+    public ModelAndView applyList(ModelAndView mav){
+        mav.setViewName("applyList");
+        return mav;
+    }
+
+    // 신청 액션
+    @RequestMapping("/applyNewBook")
+    public ModelAndView applyNewBook(ModelAndView mav){
+        mav.setViewName("applyNewBook");
+        return mav;
+    }
+
+    // 신청 액션
+    @RequestMapping("/likeAction")
+    public ModelAndView likeAction(ModelAndView mav){
+        mav.setViewName("likeAction");
+        return mav;
+    }
+
+
+
 }

@@ -60,6 +60,7 @@ public class LoginController {
                 script.println("<script>");
                 script.println("location.href = './login'");
                 script.println("</script>");
+                script.close();
             }
         }
         return mav;

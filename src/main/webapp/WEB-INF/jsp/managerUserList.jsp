@@ -8,9 +8,10 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DTO.UserDto" %>
+<%@ page import="finalTermProject.DAO.UserDao" %>
+<%@ page import="finalTermProject.DAO.BookDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -101,44 +102,45 @@
     </div>
 </nav>
 
-<div class="container" style="padding-top: 50px">
+<div class = "container" style="padding-top: 50px">
     <div class="row">
-        <div>
-        <h3> 도서 목록 화면</h3>
-            <a class="btn btn-dark pull-right" data-toggle="modal" href="#modifyModal"  style="margin: 30px auto">도서등록</a>
-        </div>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+        <h3> 모든 고객 정보 리스트  </h3>
+        <br>
+        <table colspan="18" class = "table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
+
                 <th style="background-color: #ced4da; text-align: center;">번호</th>
-                <th style="background-color: #ced4da; text-align: center;">제목</th>
-                <th style="background-color: #ced4da; text-align: center;">isbn</th>
-                <th style="background-color: #ced4da; text-align: center;">저자</th>
-                <th style="background-color: #ced4da; text-align: center;">출판사</th>
-                <th style="background-color: #ced4da; text-align: center;">카테고리</th>
-                <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 ID</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 PWD</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 이름</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 이메일</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 번호</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 주소</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 상태</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 가입날짜</th>
+                <th style="background-color: #ced4da; text-align: center;">회원 등급</th>
+                <th style="background-color: #ced4da; text-align: center;">삭제</th>
             </tr>
             </thead>
             <tbody>
             <%
-                BookDao bookDao = new BookDao();
-                ArrayList<BookDto> list = bookDao.getList(pageNumber);
+                UserDao userDao = new UserDao();
+                ArrayList<UserDto> list = userDao.allUserInfo(pageNumber);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
-                <td><%= list.get(i).getBook_num()%>
-                </td>
-                <td><a href="managerShowBook?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
-                </a></td>
-                <td><%= list.get(i).getBook_ISBN()%>
-                </td>
-                <td><%= list.get(i).getBook_author()%>
-                </td>
-                <td><%= list.get(i).getBook_publisher()%>
-                </td>
-                <td><%= list.get(i).getBook_category()%>
-                </td>
-                <td><%= list.get(i).getIs_book_borrowed()%>
+                <td><%=i+1%></td>
+                <td><%= list.get(i).getID()%></td>
+                <td><%= list.get(i).getPwd()%></td>
+                <td><%= list.get(i).getName()%></td>
+                <td><%= list.get(i).getEmail()%></td>
+                <td><%= list.get(i).getPhone()%></td>
+                <td><%= list.get(i).getAddress()%></td>
+                <td><%= list.get(i).getIsOverdue()%></td>
+                <td><%= list.get(i).getREGDATE().substring(0,10)%></td>
+                <td><%= list.get(i).getGrade()%></td>
+                <td><a onclick="return confirm('삭제하시겠습니까 ?')" href="deleteUser?id=<%=list.get(i).getID()%>" class="btn btn-outline-danger pull-right " style="margin:0px auto">삭제</a>
                 </td>
             </tr>
             <%
@@ -147,63 +149,19 @@
             </tbody>
         </table>
         <div style="margin: 10px auto">
-        <%
-            if (pageNumber != 1) {
-        %>
-        <a href="managerMain?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left"><</a>
-        <%
-            }
-            if (bookDao.nextPage(pageNumber + 1)) {
-        %>
-        <a href="managerMain?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">></a>
-        <%
-            }
-        %>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal">새 도서 추가</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="managerAddBook" method="post">
-                        <div class="form-group">
-                            <label>isbn</label>
-                            <input type="text" name="newIsbn" class="form-control" maxlength="40">
-                        </div>
-                        <div class="form-group">
-                            <label>책 제목</label>
-                            <input type="text" name="newTitle" class="form-control" maxlength="40">
-                        </div>
-                        <div class="form-group">
-                            <label>저자</label>
-                            <input type="text" name="newAuthor" class="form-control" maxlength="40">
-                        </div>
-                        <div class="form-group">
-                            <label>출판사</label>
-                            <input type="text" name="newPublisher" class="form-control" maxlength="40">
-                        </div>
-                        <div class="form-group">
-                            <label>카테고리</label>
-                            <input type="text" name="newCategory" class="form-control" maxlength="40">
-                        </div>
-                        <div class="form-group">
-                            <label>사진</label>
-                            <input type="text" name="newImage" class="form-control" maxlength="40">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            <button type="submit" class="btn btn-primary">등록하기</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <%
+                if (pageNumber != 1) {
+            %>
+            <a href="managerUserList?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left"><</a>
+            <%
+                }
+                BookDao bookDao = new BookDao();
+                if (bookDao.nextPage(pageNumber + 1)) {
+            %>
+            <a href="managerUserList?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">></a>
+            <%
+                }
+            %>
         </div>
     </div>
 

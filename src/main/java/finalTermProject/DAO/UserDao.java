@@ -1,6 +1,5 @@
 package finalTermProject.DAO;
 
-import finalTermProject.DTO.BookDto;
 import finalTermProject.DTO.UserDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -8,6 +7,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,7 +34,7 @@ public class UserDao {
     public int join(String userID,String userPwd,String userName, String userEmail, String userPhone, String userSSN, String userAddress){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar currentTime = Calendar.getInstance();
-        String SQL = "insert into member (ID,pwd,name,email,phone,SSN,address,point,isOverdue,borrowedLimit,REGDATE) values (?,?,?,?,?,?,?,?,?,?,?)";
+        String SQL = "insert into member (ID,pwd,name,email,phone,SSN,address,point,isOverdue,borrowedLimit,REGDATE,grade) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, userID);
@@ -48,6 +48,7 @@ public class UserDao {
             pstmt.setString(9, "정상");
             pstmt.setString(10, String.valueOf(3));
             pstmt.setString(11, format.format(currentTime.getTime()));
+            pstmt.setString(12, "일반회원");
             return pstmt.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
@@ -96,6 +97,7 @@ public class UserDao {
                 userDto.setPoint(rs.getInt(9));
                 userDto.setIsOverdue(rs.getString(10));
                 userDto.setBorrowedLimit(rs.getInt(11));
+                userDto.setGrade(rs.getString(13));
                 return userDto;
             }
         }catch (Exception e){
@@ -206,7 +208,7 @@ public class UserDao {
         String SQL = "update member set isOverdue=? where ID=?";
         try{
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd");
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
             cal.add(cal.DATE,+7);
             String overdueDate = format1.format(cal.getTime());
 
@@ -228,6 +230,106 @@ public class UserDao {
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1,"정상");
             pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 포인트 업데이트하기
+    public int changePoint(String userID,int new_point){
+        String SQL = "update member set point=? where ID=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,new_point);
+            pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 등급 조정
+    public int changeGrade(String userID,String userGrade){
+        String SQL = "update member set grade=? where ID=?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,userGrade);
+            pstmt.setString(2,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 모든 고객 정보 보기
+    public ArrayList<UserDto> allUserInfo(int pageNumber) {
+        String SQL = "select * from member where num<? order by num desc limit 10";
+        ArrayList<UserDto> list = new ArrayList<UserDto>();
+        try{
+            BookDao bookDao = new BookDao();
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bookDao.getNext()-(pageNumber-1)*10);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                UserDto userDto = new UserDto();
+                userDto.setID(rs.getString(2));
+                userDto.setPwd(rs.getString(3));
+                userDto.setName(rs.getString(4));
+                userDto.setEmail(rs.getString(5));
+                userDto.setPhone(rs.getString(6));
+                userDto.setAddress(rs.getString(8));
+                userDto.setIsOverdue(rs.getString(10));
+                userDto.setREGDATE(rs.getString(12));
+                userDto.setGrade(rs.getString(13));
+                list.add(userDto);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 우수 고객 정보 보기
+    public ArrayList<UserDto> ExcellentUserTop3() {
+        String SQL = "select * from member where point>99 order by point desc limit 3";
+        ArrayList<UserDto> list = new ArrayList<UserDto>();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                UserDto userDto = new UserDto();
+                userDto.setID(rs.getString(2));
+                userDto.setPwd(rs.getString(3));
+                userDto.setName(rs.getString(4));
+                userDto.setEmail(rs.getString(5));
+                userDto.setPhone(rs.getString(6));
+                userDto.setAddress(rs.getString(8));
+                userDto.setPoint(rs.getInt(9));
+                userDto.setIsOverdue(rs.getString(10));
+                userDto.setREGDATE(rs.getString(12));
+                userDto.setGrade(rs.getString(13));
+                list.add(userDto);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //  회원 삭제하기
+    public int deleteUser(String userID){
+        String SQL = "delete from member where ID=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,userID);
             return pstmt.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

@@ -1,14 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -21,7 +14,6 @@
 <body>
 <%
     BookDao bookDao =  new BookDao();
-    UserDao userDao = new UserDao();
     String userID = null;
     if(session.getAttribute("userID")!=null){
         userID = (String) session.getAttribute("userID");
@@ -42,22 +34,22 @@
             script.println("</script>");
             script.close();
         }else {
-            int bookID = 0;
+            int applyID = 0;
             if (request.getParameter("num") != null) {
-                bookID = Integer.parseInt(request.getParameter("num"));
+                applyID = Integer.parseInt(request.getParameter("num"));
             }
-            if (bookID == 0) {
+            if (applyID == 0) {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('유효하지 않는 페이지입니다.')");
                 script.println("history.back()");
                 script.println("</script>");
             }else{
-                bookDao.deleteBook(bookID);
+                bookDao.deleteApplyBook(applyID);
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('정상적으로 삭제되었습니다.')");
-                script.println("location.href='managerMain'");
+                script.println("location.href='managerUserApplyList'");
                 script.println("</script>");
             }
         }

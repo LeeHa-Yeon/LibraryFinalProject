@@ -76,6 +76,33 @@ public class LibraryManagerController {
         return mav;
     }
 
+    // 모든 고객 관리 리스트
+    @RequestMapping("/managerUserList")
+    public ModelAndView managerUserList(ModelAndView mav){
+        mav.setViewName("managerUserList");
+        return mav;
+    }
+
+    // 모든 고객 관리 리스트
+    @RequestMapping("/deleteUser")
+    public ModelAndView deleteUser(ModelAndView mav){
+        mav.setViewName("deleteUser");
+        return mav;
+    }
+
+    // 도서 신청 추가
+    @RequestMapping("/managerApplyAdd")
+    public ModelAndView managerApplyAdd(ModelAndView mav){
+        mav.setViewName("managerApplyAdd");
+        return mav;
+    }
+
+    // 도서 신청 삭제
+    @RequestMapping("/managerApplyDelete")
+    public ModelAndView managerApplyDelete(ModelAndView mav){
+        mav.setViewName("managerApplyDelete");
+        return mav;
+    }
 
 
 

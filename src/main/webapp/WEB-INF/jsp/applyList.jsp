@@ -9,9 +9,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.ApplyDto" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
+<%@ page import="finalTermProject.DTO.ApplyDto" %>
 
 <!DOCTYPE html>
 <html>
@@ -31,20 +30,14 @@
 
 <body>
 <%
-    BookDao bookDao = new BookDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
-    if (userID == null) {
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("alert('Please log in.');");
-        script.println("location.href='login'");
-        script.println("</script>");
-        script.close();
+    int pageNumber = 1;
+    if (request.getParameter("pageNumber") != null) {
+        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     }
-
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -106,56 +99,11 @@
 
 <div class="container" style="padding-top: 50px">
     <div class="row">
-        <h3> 빌린 도서 목록 </h3>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">도서번호</th>
-                <th style="background-color: #ced4da; text-align: center;">도서제목</th>
-                <th style="background-color: #ced4da; text-align: center;">빌린사람</th>
-                <th style="background-color: #ced4da; text-align: center;">빌린날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">반납날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">반납</th>
-                <th style="background-color: #ced4da; text-align: center;">연장</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                BookDao myLendInfo = new BookDao();
-                ArrayList<LendDto> list = myLendInfo.getLendInfo(userID);
-                for (int i = 0; i < list.size(); i++) {
-            %>
-            <tr>
-                <td><%= list.get(i).getLend_book_id()%>
-                </td>
-                <td><%= list.get(i).getLend_book_title()%>
-                </td>
-                <td><%= list.get(i).getLend_user_id()%>
-                </td>
-                <td><%= list.get(i).getLend_date().substring(0, 11)%>
-                </td>
-                <td><%= list.get(i).getReturn_date().substring(0, 11)%>
-                </td>
-                <td><a onclick="return confirm('반납하시겠습니까 ?')" href="returnAction?num=<%=list.get(i).getLend_book_id()%>"
-                       class="btn btn-outline-danger pull-right mx-lg-5" style="margin:0px auto"></a>
-                </td>
-                <td><a onclick="return confirm('일주일 연장하시겠습니까 ?')"
-                       href="extendAction?num=<%=list.get(i).getLend_book_id()%>"
-                       class="btn btn-outline-primary pull-right mx-lg-5" style="margin:0px auto"></a>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-
-        <br>
-        <br>
-        <br>
-
-
-        <h3> 나의 신청 도서 </h3>
+        <div>
+            <h3> 도서 신청 화면</h3>
+            <a class="btn btn-dark pull-right" data-toggle="modal" href="#modifyModal"
+               style="margin: 30px auto">도서신청</a>
+        </div>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -167,52 +115,115 @@
                 <th style="background-color: #ced4da; text-align: center;">신청날짜</th>
                 <th style="background-color: #ced4da; text-align: center;">완료날짜</th>
                 <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">신청자</th>
             </tr>
             </thead>
             <tbody>
             <%
-                ArrayList<ApplyDto> list2 = bookDao.allApplyList(1);
-                int j = 0;
-                for (int i = 0; i < list2.size(); i++) {
-
-                    if (list2.get(i).getApply_userId().equals(userID)) {
+                BookDao bookDao = new BookDao();
+                ArrayList<ApplyDto> list = bookDao.allApplyList(pageNumber);
+                for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
-                <td><%=j%>
+                <td><%=i + 1%>
                 </td>
                 <%
-                    if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
+                    if (bookDao.getDate().substring(0, 10).equals(list.get(i).getApply_Date().substring(0, 10))) {
                 %>
-                <td><%= list2.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
+                <td><%= list.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
                 <%
                 } else {
                 %>
-                <td><%= list2.get(i).getApply_title()%>
+                <td><%= list.get(i).getApply_title()%>
                 </td>
                 <%
                     }
                 %>
-                <td><%= list2.get(i).getApply_author()%>
+                <td><%= list.get(i).getApply_author()%>
                 </td>
-                <td><%= list2.get(i).getApply_publisher()%>
+                <td><%= list.get(i).getApply_publisher()%>
                 </td>
-                <td><%= list2.get(i).getApply_category()%>
+                <td><%= list.get(i).getApply_category()%>
                 </td>
-                <td><%= list2.get(i).getApply_Date().substring(0, 10)%>
+                <td><%= list.get(i).getApply_Date().substring(0, 10)%>
                 </td>
-                <td><%= list2.get(i).getAccept_Date()%>
+                <td><%= list.get(i).getAccept_Date()%>
                 </td>
-                <td><%= list2.get(i).getApply_state()%>
+                <td><%= list.get(i).getApply_state()%>
+                </td>
+                <td><%= list.get(i).getApply_userId()%>
                 </td>
             </tr>
             <%
-                    }
                 }
             %>
             </tbody>
         </table>
+        <%
+            if (pageNumber != 1) {
+        %>
+        <a href="applyList?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left">이전</a>
+        <%
+            }
+            if (bookDao.nextPage(pageNumber + 1)) {
+        %>
+        <a href="applyList?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">다음</a>
+        <%
+            }
+        %>
+    </div>
 
-        <a href="bookList" class="btn btn-dark pull-right">HOME</a>
+    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal">도서 신청하기</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="applyNewBook" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">신청자: <%=userID%>
+                            </h5>
+                        </div>
+                        <div class="form-group">
+                            <p></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>isbn</label>
+                            <input type="text" name="applyIsbn" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>책 제목</label>
+                            <input type="text" name="applyTitle" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>저자</label>
+                            <input type="text" name="applyAuthor" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>출판사</label>
+                            <input type="text" name="applyPublisher" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>카테고리</label>
+                            <input type="text" name="applyCategory" class="form-control" maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label>사진</label>
+                            <input type="text" name="newImage" class="form-control" maxlength="40">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            <button type="submit" class="btn btn-primary">신청</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

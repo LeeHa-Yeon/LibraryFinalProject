@@ -1,7 +1,9 @@
 package finalTermProject.DAO;
 
+import finalTermProject.DTO.ApplyDto;
 import finalTermProject.DTO.BookDto;
 import finalTermProject.DTO.LendDto;
+import finalTermProject.DTO.UserDto;
 
 import java.awt.print.Book;
 import java.sql.Connection;
@@ -13,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class BookDao {
 
@@ -82,6 +85,11 @@ public class BookDao {
                 bookDto.setBook_category(rs.getString(6));
                 bookDto.setIs_book_borrowed(rs.getString(7));
                 bookDto.setIs_book_reservation(rs.getString(8));
+                bookDto.setRegisteDate(rs.getString(9));
+                bookDto.setBook_image(rs.getString(10));
+                bookDto.setViews(rs.getInt(11));
+                bookDto.setLendCnt(rs.getInt(12));
+                bookDto.setLikes(rs.getInt(13));
                 list.add(bookDto);
             }
 
@@ -124,6 +132,10 @@ public class BookDao {
                 bookDto.setIs_book_borrowed(rs.getString(7));
                 bookDto.setIs_book_reservation(rs.getString(8));
                 bookDto.setBook_image(rs.getString(10));
+                bookDto.setViews(rs.getInt(11));
+                bookDto.setLendCnt(rs.getInt(12));
+                bookDto.setLikes(rs.getInt(13));
+
                 return bookDto;
             }
         }catch (Exception e){
@@ -154,6 +166,30 @@ public class BookDao {
         }
         return list;
     }
+
+    // 모든 고객 대여 상태 보기
+    public ArrayList<LendDto> allLendInfo(int pageNumber) {
+        String SQL = "select * from lendAllList where num<? order by num desc limit 10";
+        ArrayList<LendDto> list = new ArrayList<LendDto>();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, getNext()-(pageNumber-1)*10);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                LendDto lendDto = new LendDto();
+                lendDto.setLend_book_id(rs.getInt(2));
+                lendDto.setLend_book_title(rs.getString(3));
+                lendDto.setLend_user_id(rs.getString(4));
+                lendDto.setLend_date(rs.getString(5));
+                lendDto.setReturn_date(rs.getString(6));
+                list.add(lendDto);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     public int insertLendInfo(int lend_bookID ,String lend_bookTitle,String lend_userID){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -251,7 +287,6 @@ public class BookDao {
     public int addNewBook(int newIsbn, String newTitle, String newAuthor, String newPublisher, String newCategory,String newImage){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar currentTime = Calendar.getInstance();
-
         String SQL = "insert into book (isbn,book_title,book_author,book_publisher,book_category,book_is_borrowed,book_is_reservation,REGDATE,picture) values (?,?,?,?,?,?,?,?,?)";
         try{
             PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -309,4 +344,254 @@ public class BookDao {
         return -1;
     }
 
+    // 대여 연장하기
+    public int extensionDate(int bookID,String addDate){
+        String SQL = "update lendAllList set return_date=? where lend_book_id=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,addDate);
+            pstmt.setInt(2,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    public String get7DayAfterDate(int year , int month , int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month-1, day);
+        cal.add(Calendar.DATE, +7);
+        java.util.Date weekAfter = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return formatter.format(weekAfter);
+
+    }
+
+    // 모든 고객 정보 보기
+    public ArrayList<ApplyDto> allApplyList(int pageNumber) {
+        String SQL = "select * from applyList where num<? order by num desc limit 10";
+        ArrayList<ApplyDto> list = new ArrayList<ApplyDto>();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, getNext()-(pageNumber-1)*10);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                ApplyDto applyDto = new ApplyDto();
+                applyDto.setApply_num(rs.getInt(1));
+                applyDto.setApply_isbn(rs.getInt(2));
+                applyDto.setApply_title(rs.getString(3));
+                applyDto.setApply_author(rs.getString(4));
+                applyDto.setApply_publisher(rs.getString(5));
+                applyDto.setApply_category(rs.getString(6));
+                applyDto.setApply_userId(rs.getString(7));
+                applyDto.setApply_image(rs.getString(8));
+                applyDto.setApply_state(rs.getString(9));
+                applyDto.setApply_Date(rs.getString(10));
+                applyDto.setAccept_Date(rs.getString(11));
+                list.add(applyDto);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 도서 신청하기
+    public int applyBook(int applyIsbn, String applyTitle, String applyAuthor, String applyPublisher, String applyCategory,String apply_user,String applyImage){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar currentTime = Calendar.getInstance();
+
+        String SQL = "insert into applyList (isbn,book_title,book_author,book_publisher,book_category,apply_user,image,state,applyDate,acceptDate) values (?,?,?,?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, applyIsbn);
+            pstmt.setString(2, applyTitle);
+            pstmt.setString(3, applyAuthor);
+            pstmt.setString(4, applyPublisher);
+            pstmt.setString(5, applyCategory);
+            pstmt.setString(6, apply_user);
+            pstmt.setString(7, applyImage);
+            pstmt.setString(8, "대기중");
+            pstmt.setString(9, format.format(currentTime.getTime()));
+            pstmt.setString(10, " ");
+            System.out.println(pstmt);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return -2; // 데이터베이스 오류
+    }
+
+    // 책 정보 수정하기
+    public int updateApplyInfo(int applyID){
+        String SQL = "update applyList set state=?,acceptDate=? where num=?";
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar currentTime = Calendar.getInstance();
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,"입고 완료");
+            pstmt.setString(2, format.format(currentTime.getTime()));
+            pstmt.setInt(3,applyID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    //  대여 항목 제거하기
+    public int deleteApplyBook(int applyID){
+        String SQL = "delete from applyList where num=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,applyID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 신청도서 보기
+    public ApplyDto getApplyInfo(int applyNum) {
+        String SQL = "select * from applyList where num = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, applyNum);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ApplyDto applyDto = new ApplyDto();
+                applyDto.setApply_num(rs.getInt(1));
+                applyDto.setApply_isbn(rs.getInt(2));
+                applyDto.setApply_title(rs.getString(3));
+                applyDto.setApply_author(rs.getString(4));
+                applyDto.setApply_publisher(rs.getString(5));
+                applyDto.setApply_category(rs.getString(6));
+                applyDto.setApply_userId(rs.getString(7));
+                applyDto.setApply_image(rs.getString(8));
+                return applyDto;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // 조회수 증가하기
+    public int plusViews(int bookID, int originViews){
+        String SQL = "update book set views=? where num=?";
+        try{
+            BookDto bookDto = new BookDto();
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,originViews+1);
+            pstmt.setInt(2,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 대여카운트 증가하기
+    public int plusLendCnt(int bookID, int originLendCnt){
+        String SQL = "update book set lendCnt=? where num=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,originLendCnt+1);
+            pstmt.setInt(2,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 추천카운트 증가하기
+    public int plusLikesCnt(int bookID, int originLikes){
+        String SQL = "update book set likes=? where num=?";
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,originLikes+1);
+            pstmt.setInt(2,bookID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+    // 인기 도서  top 5( 대여 횟수 )
+    public ArrayList<BookDto> popularBookTop5(){
+        String SQL = "select * from book order by lendCnt desc limit 5";
+        ArrayList<BookDto> list = new ArrayList<BookDto>();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                BookDto bookDto = new BookDto();
+                bookDto.setBook_num(rs.getInt(1));
+                bookDto.setBook_ISBN(rs.getInt(2));
+                bookDto.setBook_title(rs.getString(3));
+                bookDto.setBook_author(rs.getString(4));
+                bookDto.setBook_publisher(rs.getString(5));
+                bookDto.setBook_category(rs.getString(6));
+                bookDto.setIs_book_borrowed(rs.getString(7));
+                bookDto.setIs_book_reservation(rs.getString(8));
+                bookDto.setRegisteDate(rs.getString(9));
+                bookDto.setBook_image(rs.getString(10));
+                bookDto.setViews(rs.getInt(11));
+                bookDto.setLendCnt(rs.getInt(12));
+                bookDto.setLikes(rs.getInt(13));
+                list.add(bookDto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 사람들 추천 도서  top 3( 좋아요 횟수 )
+    public ArrayList<BookDto> recommendedBookTop3(){
+        String SQL = "select * from book order by likes desc limit 3";
+        ArrayList<BookDto> list = new ArrayList<BookDto>();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                BookDto bookDto = new BookDto();
+                bookDto.setBook_num(rs.getInt(1));
+                bookDto.setBook_ISBN(rs.getInt(2));
+                bookDto.setBook_title(rs.getString(3));
+                bookDto.setBook_author(rs.getString(4));
+                bookDto.setBook_publisher(rs.getString(5));
+                bookDto.setBook_category(rs.getString(6));
+                bookDto.setIs_book_borrowed(rs.getString(7));
+                bookDto.setIs_book_reservation(rs.getString(8));
+                bookDto.setRegisteDate(rs.getString(9));
+                bookDto.setBook_image(rs.getString(10));
+                bookDto.setViews(rs.getInt(11));
+                bookDto.setLendCnt(rs.getInt(12));
+                bookDto.setLikes(rs.getInt(13));
+                list.add(bookDto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

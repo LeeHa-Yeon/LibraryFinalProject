@@ -77,14 +77,14 @@
         if (myInfo.getBorrowedLimit() != 0) {
 
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd");
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
             Date time = new Date();
             String currentDate = format1.format(time);
             int Overdueing;
             if (myInfo.getIsOverdue().equals("정상")) {
                 Overdueing = 1;
             } else {
-                Overdueing = bookDao.dateCompareTo(currentDate, myInfo.getIsOverdue().substring(0, 11));
+                Overdueing = bookDao.dateCompareTo(currentDate, myInfo.getIsOverdue().substring(0, 10));
             }
 
 
@@ -101,6 +101,8 @@
                     userDao.lendCntChange(userID, myInfo.getBorrowedLimit() - 1);
                     bookDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
                     bookDao.updateLendState(bookID, "대출불가(대여중)");
+                    userDao.changePoint(userID, myInfo.getPoint() + 1);
+                    bookDao.plusLendCnt(bookID,bookInfo.getLendCnt());
                     PrintWriter script = response.getWriter();
                     script.println("<script>");
                     script.println("alert('대여 성공했습니다. 반납일을 꼭 지켜주세요')");
@@ -116,14 +118,14 @@
                 }
             }
 
-            } else{
-                PrintWriter script = response.getWriter();
-                script.println("<script>");
-                script.println("alert('대여 가능 횟수를 초과했습니다. 책을 반납 후 이용해주세요')");
-                script.println("history.back()");
-                script.println("</script>");
-            }
+        } else {
+            PrintWriter script = response.getWriter();
+            script.println("<script>");
+            script.println("alert('대여 가능 횟수를 초과했습니다. 책을 반납 후 이용해주세요')");
+            script.println("history.back()");
+            script.println("</script>");
         }
+    }
 
 %>
 
