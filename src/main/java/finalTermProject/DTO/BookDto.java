@@ -15,7 +15,6 @@ public class BookDto {
     private int lendCnt;
     private int likes;
 
-
     public int getBook_num() {
         return book_num;
     }

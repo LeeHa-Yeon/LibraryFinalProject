@@ -11,8 +11,7 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
+<%@ page import="java.net.URLEncoder" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,15 +31,38 @@
 
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     String userID = null;
     BookDao bookDao = new BookDao();
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
-    int pageNumber = 1;
-    if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+//    int pageNumber = 1;
+//    if (request.getParameter("pageNumber") != null) {
+//        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+//    }
+    String SearchDivide = "전체";
+    String searchType = "최신순";
+    String search = "";
+    int pageNumber2 = 0;
+    if (request.getParameter("SearchDivide") != null) {
+        SearchDivide = request.getParameter("SearchDivide");
     }
+    if (request.getParameter("searchType") != null) {
+        searchType = request.getParameter("searchType");
+    }
+    if (request.getParameter("search") != null) {
+        search = request.getParameter("search");
+    }
+    if (request.getParameter("pageNumber2") != null) {
+        try {
+            pageNumber2 = Integer.parseInt(request.getParameter("pageNumber2"));
+
+        } catch (Exception e) {
+            System.out.println("검색페이지 번호 오류");
+        }
+    }
+
 
 %>
 
@@ -106,17 +128,36 @@
     <div class="row">
         <div>
             <h3> 도서 목록 화면</h3>
-            <form style="margin-top:20px; margin-left: 850px" action="./bookList" class="form-inline my-2 my-lg-0">
 
-                <input type="text" name="search" class="form-control mr-sm-2" type="search" placeholder="내용을입력하세요."
-                       aria-label="search">
-
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
-
-            </form>
+            <section class="container">
+                <form style="margin:20px auto; " method="get" action="./bookList"
+                      class="form-inline mt-3">
+                    <select name="SearchDivide" class="form-control mx-1 mt-2">
+                        <option value="전체"> 전체</option>
+                        <option value="제목"><% if (SearchDivide.equals("제목")) out.println("selected"); %> 제목</option>
+                        <option value="저자"><% if (SearchDivide.equals("저자")) out.println("selected"); %> 저자</option>
+                        <option value="기타"><% if (SearchDivide.equals("기타")) out.println("selected"); %> 기타</option>
+                    </select>
+                    <select name="searchType" class="form-control mx-1 mt-2">
+                        <option value="최신순"> 최신순</option>
+                        <option value="인기순"><% if (SearchDivide.equals("인기순")) out.println("selected"); %>인기순
+                        </option>
+                        <option value="추천순"><% if (SearchDivide.equals("추천순")) out.println("selected"); %> 추천순</option>
+                        <option value="조회순"><% if (SearchDivide.equals("조회순")) out.println("selected"); %> 조회순</option>
+                    </select>
+                    <input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요">
+                    <button type="submit" class="btn btn-outline-success mx-1 mt-2">검색</button>
+                </form>
+            </section>
+            <%--            <form style="margin-top:20px; margin-left: 850px" action="./bookList" class="form-inline my-2 my-lg-0">--%>
+            <%--                <input type="text" name="search" class="form-control mr-sm-2" type="search" placeholder="내용을입력하세요."--%>
+            <%--                       aria-label="search">--%>
+            <%--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>--%>
+            <%--            </form>--%>
 
         </div>
-        <table class="table table-striped" style="margin-top: 30px; text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+        <table class="table table-striped"
+               style="margin-top: 30px; text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
                 <th style="background-color: #ced4da; text-align: center;">번호</th>
@@ -131,22 +172,25 @@
             </thead>
             <tbody>
             <%
-                ArrayList<BookDto> list = bookDao.getList(pageNumber);
-                for (int i = 0; i < list.size(); i++) {
+                ArrayList<BookDto> list = bookDao.getSearchList(SearchDivide, searchType, search, pageNumber2);
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        if (i == 5) break;
+                        BookDto bookInfo = list.get(i);
             %>
             <tr>
-                <td><%= list.get(i).getBook_num()%>
+                <td><%= bookInfo.getBook_num()%>
                 </td>
                 <%
-                    if (bookDao.getDate().substring(0, 10).equals(list.get(i).getRegisteDate().substring(0, 10))) {
+                    if (bookDao.getDate().substring(0, 10).equals(bookInfo.getRegisteDate().substring(0, 10))) {
                 %>
-                <td><a href="bookShow?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
+                <td><a href="bookShow?num=<%=bookInfo.getBook_num()%>"><%= bookInfo.getBook_title()%>
                     <img src="./new.png" width="25" height="25" alt="">
                 </a></td>
                 <%
                 } else {
                 %>
-                <td><a href="bookShow?num=<%=list.get(i).getBook_num()%>"><%= list.get(i).getBook_title()%>
+                <td><a href="bookShow?num=<%=bookInfo.getBook_num()%>"><%= bookInfo.getBook_title()%>
                 </a>
 
                 </td>
@@ -154,20 +198,21 @@
                 <%
                     }
                 %>
-                <td><%= list.get(i).getBook_ISBN()%>
+                <td><%= bookInfo.getBook_ISBN()%>
                 </td>
-                <td><%= list.get(i).getBook_author()%>
+                <td><%= bookInfo.getBook_author()%>
                 </td>
-                <td><%= list.get(i).getBook_publisher()%>
+                <td><%= bookInfo.getBook_publisher()%>
                 </td>
-                <td><%= list.get(i).getBook_category()%>
+                <td><%= bookInfo.getBook_category()%>
                 </td>
-                <td><%= list.get(i).getIs_book_borrowed()%>
+                <td><%= bookInfo.getIs_book_borrowed()%>
                 </td>
-                <td><%= list.get(i).getViews()%>
+                <td><%= bookInfo.getViews()%>
                 </td>
             </tr>
             <%
+                    }
                 }
             %>
             </tbody>
@@ -176,19 +221,49 @@
     </div>
     <center>
         <div>
+            <ul class="pagination justify-content-center mt-3">
+                <li class="page-item">
+                    <%
+                        if (pageNumber2 <= 0) {
+                    %>
+                    <a class="page-link disabled">이전</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="page-link"
+                       href="./bookList?SearchDivide=<%=URLEncoder.encode(SearchDivide,"UTF-8")%>&searchType=<%=URLEncoder.encode(searchType,"UTF-8")%>&search=<%=URLEncoder.encode(search,"UTF-8")%>&pageNumber2=<%=pageNumber2-1%>">이전</a>
+                    <%
+                        }
+                    %>
+                </li>
+                <li class="page-item">
+                    <%
+                        if (list.size() < 6) {
+                    %>
+                    <a class="page-link disabled">다음</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="page-link"
+                       href="./bookList?SearchDivide=<%=URLEncoder.encode(SearchDivide,"UTF-8")%>&searchType=<%=URLEncoder.encode(searchType,"UTF-8")%>&search=<%=URLEncoder.encode(search,"UTF-8")%>&pageNumber2=<%=pageNumber2+1%>">다음</a>
+                    <%
+                        }
+                    %>
+                </li>
+            </ul>
 
-            <%
-                if (pageNumber != 1) {
-            %>
-            <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-secondary btn-arraw-left">이전</a>
-            <%
-                }
-                if (bookDao.nextPage(pageNumber + 1)) {
-            %>
-            <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-secondary btn-arraw-left">다음</a>
-            <%
-                }
-            %>
+            <%--            <%--%>
+            <%--                if (pageNumber != 1) {--%>
+            <%--            %>--%>
+            <%--            <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-secondary btn-arraw-left">이전</a>--%>
+            <%--            <%--%>
+            <%--                }--%>
+            <%--                if (bookDao.nextPage(pageNumber + 1)) {--%>
+            <%--            %>--%>
+            <%--            <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-secondary btn-arraw-left">다음</a>--%>
+            <%--            <%--%>
+            <%--                }--%>
+            <%--            %>--%>
 
         </div>
     </center>
