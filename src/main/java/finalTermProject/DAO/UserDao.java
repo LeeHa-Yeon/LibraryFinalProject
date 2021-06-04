@@ -270,12 +270,11 @@ public class UserDao {
 
     // 모든 고객 정보 보기
     public ArrayList<UserDto> allUserInfo(int pageNumber) {
-        String SQL = "select * from member where num<? order by num desc limit 10";
+        String SQL = "select * from member order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
         ArrayList<UserDto> list = new ArrayList<UserDto>();
         try{
             BookDao bookDao = new BookDao();
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, bookDao.getNext()-(pageNumber-1)*10);
             rs = pstmt.executeQuery();
             while (rs.next()){
                 UserDto userDto = new UserDto();

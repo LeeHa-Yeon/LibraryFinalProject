@@ -65,11 +65,20 @@
                         script.println("history.back()");
                         script.println("</script>");
                     }else{
-                        PrintWriter script = response.getWriter();
-                        script.println("<script>");
-                        script.println("alert('비밀번호가 성공적으로 변경되었습니다.')");
-                        script.println("location.href='main'");
-                        script.println("</script>");
+                        if (!userID.equals("manager")) {
+                            PrintWriter script = response.getWriter();
+                            script.println("<script>");
+                            script.println("alert('비밀번호가 성공적으로 변경되었습니다.')");
+                            script.println("location.href='main'");
+                            script.println("</script>");
+                        }else{
+                            PrintWriter script = response.getWriter();
+                            script.println("<script>");
+                            script.println("alert('비밀번호가 성공적으로 변경되었습니다.')");
+                            script.println("location.href='managerMain'");
+                            script.println("</script>");
+
+                        }
                     }
                 }
 

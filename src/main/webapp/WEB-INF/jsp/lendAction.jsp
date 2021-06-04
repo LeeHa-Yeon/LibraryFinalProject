@@ -26,9 +26,6 @@
 <%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
-<%@ page import="java.awt.print.Book" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -72,6 +69,7 @@
         BookDto bookInfo = bookDao.getBookInfo(bookID);
         UserDto myInfo = userDao.getUserInfo(userID);
 
+
 //    일단 member 대여가능개수가 존재한다면
 
         if (myInfo.getBorrowedLimit() != 0) {
@@ -101,9 +99,41 @@
                     userDao.lendCntChange(userID, myInfo.getBorrowedLimit() - 1);
                     bookDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
                     bookDao.updateLendState(bookID, "대출불가(대여중)");
+                    String nowGradeInfo = userDao.getUserInfo(userID).getGrade();
                     userDao.changePoint(userID, myInfo.getPoint() + 1);
                     bookDao.plusLendCnt(bookID,bookInfo.getLendCnt());
                     PrintWriter script = response.getWriter();
+                    if (myInfo.getPoint()>=100){
+                        userDao.changeGrade(userID,"우수회원");
+                        String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
+                        if(nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("우수회원")) {
+                            script.println("<script>");
+                            script.println("alert('축하드립니다. 우수 회원이 되었습니다.')");
+                            script.println("</script>");
+                        }
+                    }
+                    else if(myInfo.getPoint()<100 && myInfo.getPoint()>=0){
+                        userDao.changeGrade(userID,"일반회원");
+                        String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
+                        if(nowGradeInfo.equals("우수회원") && nextGradeInfo.equals("일반회원")) {
+                            script.println("<script>");
+                            script.println("alert('일반회원으로 강등되었습니다. 조심만 분발해주세요')");
+                            script.println("</script>");
+                        }else if (nowGradeInfo.equals("블랙회원") && nextGradeInfo.equals("일반회원")) {
+                            script.println("<script>");
+                            script.println("alert('일반회원이 되었습니다. 우수회원까지 분발해주세요')");
+                            script.println("</script>");
+                        }
+                    }else{
+                        userDao.changeGrade(userID,"블랙회원");
+                        String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
+                        if(nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("블랙회원")) {
+                            script.println("<script>");
+                            script.println("alert('블랙 회원입니다. 포인트 -10점시 자동으로 탈퇴됩니다.')");
+                            script.println("</script>");
+                        }
+                    }
+
                     script.println("<script>");
                     script.println("alert('대여 성공했습니다. 반납일을 꼭 지켜주세요')");
                     script.println("location.href='bookList'");

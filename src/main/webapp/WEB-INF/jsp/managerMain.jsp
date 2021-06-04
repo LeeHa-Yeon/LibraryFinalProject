@@ -34,10 +34,16 @@
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
-    int pageNumber = 1;
+    int pageNumber = 0;
     if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+        try {
+            pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+
+        } catch (Exception e) {
+            System.out.println("검색페이지 번호 오류");
+        }
     }
+
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -146,20 +152,41 @@
             %>
             </tbody>
         </table>
-        <div style="margin: 10px auto">
-        <%
-            if (pageNumber != 1) {
-        %>
-        <a href="managerMain?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left"><</a>
-        <%
-            }
-            if (bookDao.nextPage(pageNumber + 1)) {
-        %>
-        <a href="managerMain?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">></a>
-        <%
-            }
-        %>
-        </div>
+        <center>
+            <div>
+                <ul class="pagination justify-content-center mt-3">
+                    <li class="page-item">
+                        <%
+                            if (pageNumber <= 0) {
+                        %>
+                        <a class="page-link disabled">이전</a>
+                        <%
+                        } else {
+                        %>
+                        <a class="page-link"
+                           href="./managerMain?pageNumber=<%=pageNumber-1%>">이전</a>
+                        <%
+                            }
+                        %>
+                    </li>
+                    <li class="page-item">
+                        <%
+                            if (list.size() < 6) {
+                        %>
+                        <a class="page-link disabled">다음</a>
+                        <%
+                        } else {
+                        %>
+                        <a class="page-link"
+                           href="./managerMain?pageNumber=<%=pageNumber+1%>">다음</a>
+                        <%
+                            }
+                        %>
+                    </li>
+                </ul>
+
+            </div>
+        </center>
     </div>
 
     <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">

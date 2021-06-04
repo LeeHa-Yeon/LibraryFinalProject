@@ -37,14 +37,11 @@
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
-//    int pageNumber = 1;
-//    if (request.getParameter("pageNumber") != null) {
-//        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-//    }
+
     String SearchDivide = "전체";
     String searchType = "최신순";
     String search = "";
-    int pageNumber2 = 0;
+
     if (request.getParameter("SearchDivide") != null) {
         SearchDivide = request.getParameter("SearchDivide");
     }
@@ -54,6 +51,7 @@
     if (request.getParameter("search") != null) {
         search = request.getParameter("search");
     }
+    int pageNumber2 = 0;
     if (request.getParameter("pageNumber2") != null) {
         try {
             pageNumber2 = Integer.parseInt(request.getParameter("pageNumber2"));
@@ -134,16 +132,16 @@
                       class="form-inline mt-3">
                     <select name="SearchDivide" class="form-control mx-1 mt-2">
                         <option value="전체"> 전체</option>
-                        <option value="제목"><% if (SearchDivide.equals("제목")) out.println("selected"); %> 제목</option>
-                        <option value="저자"><% if (SearchDivide.equals("저자")) out.println("selected"); %> 저자</option>
-                        <option value="기타"><% if (SearchDivide.equals("기타")) out.println("selected"); %> 기타</option>
+                        <option value="제목"<% if (SearchDivide.equals("제목")) out.println("selected"); %>> 제목</option>
+                        <option value="저자"<% if (SearchDivide.equals("저자")) out.println("selected"); %>> 저자</option>
+                        <option value="기타"<% if (SearchDivide.equals("기타")) out.println("selected"); %>> 기타</option>
                     </select>
                     <select name="searchType" class="form-control mx-1 mt-2">
                         <option value="최신순"> 최신순</option>
-                        <option value="인기순"><% if (SearchDivide.equals("인기순")) out.println("selected"); %>인기순
+                        <option value="인기순"<% if (SearchDivide.equals("인기순")) out.println("selected"); %>>인기순
                         </option>
-                        <option value="추천순"><% if (SearchDivide.equals("추천순")) out.println("selected"); %> 추천순</option>
-                        <option value="조회순"><% if (SearchDivide.equals("조회순")) out.println("selected"); %> 조회순</option>
+                        <option value="추천순"<% if (SearchDivide.equals("추천순")) out.println("selected"); %>> 추천순</option>
+                        <option value="조회순"<% if (SearchDivide.equals("조회순")) out.println("selected"); %> >조회순</option>
                     </select>
                     <input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요">
                     <button type="submit" class="btn btn-outline-success mx-1 mt-2">검색</button>
@@ -251,19 +249,6 @@
                     %>
                 </li>
             </ul>
-
-            <%--            <%--%>
-            <%--                if (pageNumber != 1) {--%>
-            <%--            %>--%>
-            <%--            <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-secondary btn-arraw-left">이전</a>--%>
-            <%--            <%--%>
-            <%--                }--%>
-            <%--                if (bookDao.nextPage(pageNumber + 1)) {--%>
-            <%--            %>--%>
-            <%--            <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-secondary btn-arraw-left">다음</a>--%>
-            <%--            <%--%>
-            <%--                }--%>
-            <%--            %>--%>
 
         </div>
     </center>

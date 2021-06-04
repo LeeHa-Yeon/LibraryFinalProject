@@ -11,6 +11,7 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.ApplyDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
 
 <!DOCTYPE html>
@@ -43,6 +44,15 @@
         script.println("location.href='login'");
         script.println("</script>");
         script.close();
+    }
+    int pageNumber = 0;
+    if (request.getParameter("pageNumber") != null) {
+        try {
+            pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+
+        } catch (Exception e) {
+            System.out.println("검색페이지 번호 오류");
+        }
     }
 
 %>
@@ -171,14 +181,13 @@
             </thead>
             <tbody>
             <%
-                ArrayList<ApplyDto> list2 = bookDao.allApplyList(1);
-                int j = 0;
+                ArrayList<ApplyDto> list2 = bookDao.allApplyList(pageNumber);
                 for (int i = 0; i < list2.size(); i++) {
 
                     if (list2.get(i).getApply_userId().equals(userID)) {
             %>
             <tr>
-                <td><%=j%>
+                <td><%=i+1%>
                 </td>
                 <%
                     if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
@@ -212,8 +221,44 @@
             </tbody>
         </table>
 
-        <a href="bookList" class="btn btn-dark pull-right">HOME</a>
+            <div>
+                <ul class="pagination justify-content-center mt-3">
+                    <li class="page-item">
+                        <%
+                            if (pageNumber <= 0) {
+                        %>
+                        <a class="page-link disabled">이전</a>
+                        <%
+                        } else {
+                        %>
+                        <a class="page-link"
+                           href="./applyList?pageNumber=<%=pageNumber-1%>">이전</a>
+                        <%
+                            }
+                        %>
+                    </li>
+                    <li class="page-item">
+                        <%
+                            if (list.size() < 6) {
+                        %>
+                        <a class="page-link disabled">다음</a>
+                        <%
+                        } else {
+                        %>
+                        <a class="page-link"
+                           href="./applyList?pageNumber=<%=pageNumber+1%>">다음</a>
+                        <%
+                            }
+                        %>
+                    </li>
+                </ul>
+
+            </div>
+
+
+
     </div>
+    <center><a href="main" class="btn btn-dark pull-right">HOME</a></center>
 
 </div>
 

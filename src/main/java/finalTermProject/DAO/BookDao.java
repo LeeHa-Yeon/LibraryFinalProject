@@ -69,11 +69,10 @@ public class BookDao {
 
     // 책 목록 보기
     public ArrayList<BookDto> getList(int pageNumber) {
-        String SQL = "select * from book where num < ? order by num desc limit 3";
+        String SQL = "select * from book order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
         ArrayList<BookDto> list = new ArrayList<BookDto>();
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, getNext() - (pageNumber - 1) * 3);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 BookDto bookDto = new BookDto();
@@ -169,11 +168,10 @@ public class BookDao {
 
     // 모든 고객 대여 상태 보기
     public ArrayList<LendDto> allLendInfo(int pageNumber) {
-        String SQL = "select * from lendAllList where num<? order by num desc limit 10";
+        String SQL = "select * from lendAllList order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
         ArrayList<LendDto> list = new ArrayList<LendDto>();
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 LendDto lendDto = new LendDto();
@@ -372,11 +370,10 @@ public class BookDao {
 
     // 모든 고객 정보 보기
     public ArrayList<ApplyDto> allApplyList(int pageNumber) {
-        String SQL = "select * from applyList where num<? order by num desc limit 10";
+        String SQL = "select * from applyList order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
         ArrayList<ApplyDto> list = new ArrayList<ApplyDto>();
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 ApplyDto applyDto = new ApplyDto();
