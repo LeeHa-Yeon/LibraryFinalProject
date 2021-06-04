@@ -105,6 +105,12 @@ public class LibraryManagerController {
     }
 
 
+    // 댓글 삭제
+    @RequestMapping("/managerCommentDelete")
+    public ModelAndView managerCommentDelete(ModelAndView mav){
+        mav.setViewName("managerCommentDelete");
+        return mav;
+    }
 
 
 }

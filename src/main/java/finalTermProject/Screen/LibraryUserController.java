@@ -82,6 +82,25 @@ public class LibraryUserController {
         return mav;
     }
 
+    // 댓글달기
+    @RequestMapping("/commentAction")
+    public ModelAndView commentAction(ModelAndView mav){
+        mav.setViewName("commentAction");
+        return mav;
+    }
 
+    // 댓글수정
+    @RequestMapping("/commentModify")
+    public ModelAndView commentModify(ModelAndView mav){
+        mav.setViewName("commentModify");
+        return mav;
+    }
+
+    // 댓글삭제
+    @RequestMapping("/commentDelete")
+    public ModelAndView commentDelete(ModelAndView mav){
+        mav.setViewName("commentDelete");
+        return mav;
+    }
 
 }

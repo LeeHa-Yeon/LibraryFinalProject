@@ -11,6 +11,10 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DAO.CommentDao" %>
+<%@ page import="finalTermProject.DTO.CommentDto" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 
 <!DOCTYPE html>
 <html>
@@ -214,11 +218,47 @@
             <h5>리뷰<small></small></h5>
         </div>
         <div class="card-body">
+
+            <%
+                CommentDao commentDao = new CommentDao();
+                ArrayList<CommentDto> list = commentDao.getcommentList(Integer.parseInt(request.getParameter("num")));
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        CommentDto commentInfo = list.get(i);
+
+            %>
+            <b><label style="color: #0c5460 "><%=commentInfo.getUser_id()%>&nbsp;
+            </label></b>
+
+            <b style>&nbsp; <%=commentInfo.getContent()%>&nbsp;
+            </b>
+            <%
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar currentTime = Calendar.getInstance();
+                String now = format.format(currentTime.getTime());
+                if (now.substring(0, 10).equals(commentInfo.getRegister_date().substring(0, 10))) {
+            %>
+            <small>(<%=commentInfo.getRegister_date().substring(11, 19)%>)&nbsp;&nbsp;</small>
+            <%--            <small>&nbsp; </small>--%>
+            <%
+            } else {
+            %>
+            <small>(<%=commentInfo.getRegister_date().substring(0, 10)%>)&nbsp;</small>
+            <%
+                }
+            %>
+
+            <a onclick = "return confirm('삭제하시겠습니까 ?')" href = "managerCommentDelete?num=<%=bookDto.getBook_num()%>&commentID=<%=commentInfo.getComment_num()%>"
+               style="color: #a71d2a">삭제</a>
+            <hr>
+            <%
+                    }
+                }
+            %>
         </div>
-        <center><a href="managerMain" class="btn btn-dark pull-right" style="margin: 30px auto">뒤로가기</a></center>
-
-
     </div>
+
+    <center><a href="managerMain" class="btn btn-dark pull-right" style="margin: 30px auto">뒤로가기</a></center>
 </div>
 
 <script src="./js/jquery-3.4.1.min.js"></script>
