@@ -48,7 +48,7 @@
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li>
-                <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+                <a class="nav-link" href="./main"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">도서목록</span></a>

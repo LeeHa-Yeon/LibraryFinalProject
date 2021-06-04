@@ -12,7 +12,14 @@ public class LibraryUserController {
     @Autowired
     BookDao bookDao;
 
-    // 메인페이지이자 도서목록
+    // 메인 페이지
+    @RequestMapping("/main")
+    public ModelAndView main(ModelAndView mav){
+        mav.setViewName("main");
+        return mav;
+    }
+
+    //도서목록
     @RequestMapping("/bookList")
     public ModelAndView bookList(ModelAndView mav){
         mav.setViewName("bookList");

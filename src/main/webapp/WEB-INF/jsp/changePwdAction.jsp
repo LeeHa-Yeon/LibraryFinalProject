@@ -68,7 +68,7 @@
                         PrintWriter script = response.getWriter();
                         script.println("<script>");
                         script.println("alert('비밀번호가 성공적으로 변경되었습니다.')");
-                        script.println("location.href='bookList'");
+                        script.println("location.href='main'");
                         script.println("</script>");
                     }
                 }

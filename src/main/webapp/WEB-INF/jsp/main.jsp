@@ -9,9 +9,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.ApplyDto" %>
+<%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
+<%@ page import="finalTermProject.DTO.UserDto" %>
+<%@ page import="finalTermProject.DAO.UserDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -31,18 +32,14 @@
 
 <body>
 <%
-    BookDao bookDao = new BookDao();
     String userID = null;
+    BookDao bookDao = new BookDao();
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
-    if (userID == null) {
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("alert('Please log in.');");
-        script.println("location.href='login'");
-        script.println("</script>");
-        script.close();
+    int pageNumber = 1;
+    if (request.getParameter("pageNumber") != null) {
+        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     }
 
 %>
@@ -105,114 +102,161 @@
 </nav>
 
 <div class="container" style="padding-top: 50px">
+
     <div class="row">
-        <h3> 빌린 도서 목록 </h3>
+        <h3> 인기 도서 Top5 </h3>
+
+        <p align="right"> 대여를 많이 한 순서 </p>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
-                <th style="background-color: #ced4da; text-align: center;">도서번호</th>
-                <th style="background-color: #ced4da; text-align: center;">도서제목</th>
-                <th style="background-color: #ced4da; text-align: center;">빌린사람</th>
-                <th style="background-color: #ced4da; text-align: center;">빌린날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">반납날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">반납</th>
-                <th style="background-color: #ced4da; text-align: center;">연장</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                BookDao myLendInfo = new BookDao();
-                ArrayList<LendDto> list = myLendInfo.getLendInfo(userID);
-                for (int i = 0; i < list.size(); i++) {
-            %>
-            <tr>
-                <td><%= list.get(i).getLend_book_id()%>
-                </td>
-                <td><%= list.get(i).getLend_book_title()%>
-                </td>
-                <td><%= list.get(i).getLend_user_id()%>
-                </td>
-                <td><%= list.get(i).getLend_date().substring(0, 11)%>
-                </td>
-                <td><%= list.get(i).getReturn_date().substring(0, 11)%>
-                </td>
-                <td><a onclick="return confirm('반납하시겠습니까 ?')" href="returnAction?num=<%=list.get(i).getLend_book_id()%>"
-                       class="btn btn-outline-danger pull-right mx-lg-5" style="margin:0px auto"></a>
-                </td>
-                <td><a onclick="return confirm('일주일 연장하시겠습니까 ?')"
-                       href="extendAction?num=<%=list.get(i).getLend_book_id()%>"
-                       class="btn btn-outline-primary pull-right mx-lg-5" style="margin:0px auto"></a>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-
-        <br>
-        <br>
-        <br>
-
-
-        <h3> 나의 신청 도서 </h3>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">번호</th>
-                <th style="background-color: #ced4da; text-align: center;">책 제목</th>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">제목</th>
                 <th style="background-color: #ced4da; text-align: center;">저자</th>
-                <th style="background-color: #ced4da; text-align: center;">출판사</th>
-                <th style="background-color: #ced4da; text-align: center;">카테고리</th>
-                <th style="background-color: #ced4da; text-align: center;">신청날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">완료날짜</th>
                 <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">대여수</th>
             </tr>
             </thead>
             <tbody>
             <%
-                ArrayList<ApplyDto> list2 = bookDao.allApplyList(1);
-                int j = 0;
-                for (int i = 0; i < list2.size(); i++) {
-
-                    if (list2.get(i).getApply_userId().equals(userID)) {
+                ArrayList<BookDto> popularList = bookDao.popularBookTop5();
+                for (int i = 0; i < popularList.size(); i++) {
             %>
             <tr>
-                <td><%=j%>
+                <td><%= i + 1 %>위
                 </td>
                 <%
-                    if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
+                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
                 %>
-                <td><%= list2.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
+                <td>
+                    <a href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
+                        <img
+                                src="./new.png" width="25" height="25" alt="">
+
+                    </a></td>
                 <%
                 } else {
                 %>
-                <td><%= list2.get(i).getApply_title()%>
+                <td class="clickTitle"><a
+                        href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
+                </a>
+
                 </td>
+
                 <%
                     }
                 %>
-                <td><%= list2.get(i).getApply_author()%>
+
+                <td><%= popularList.get(i).getBook_author()%>
                 </td>
-                <td><%= list2.get(i).getApply_publisher()%>
+                <td><%= popularList.get(i).getIs_book_borrowed()%>
                 </td>
-                <td><%= list2.get(i).getApply_category()%>
-                </td>
-                <td><%= list2.get(i).getApply_Date().substring(0, 10)%>
-                </td>
-                <td><%= list2.get(i).getAccept_Date()%>
-                </td>
-                <td><%= list2.get(i).getApply_state()%>
+                <td><%= popularList.get(i).getLendCnt()%>
                 </td>
             </tr>
             <%
-                    }
                 }
             %>
             </tbody>
         </table>
 
-        <a href="bookList" class="btn btn-dark pull-right">HOME</a>
+    </div>
+
+
+    <div class="row">
+        <h3> 추천 도서 Top3 </h3>
+        <p align="left"> 추천을 많이 받은 순서 </p>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">제목</th>
+                <th style="background-color: #ced4da; text-align: center;">저자</th>
+                <th style="background-color: #ced4da; text-align: center;">상태</th>
+                <th style="background-color: #ced4da; text-align: center;">추천수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                ArrayList<BookDto> recommendList = bookDao.recommendedBookTop3();
+                for (int i = 0; i < recommendList.size(); i++) {
+            %>
+            <tr>
+                <td><%= i + 1 %>위
+                </td>
+                <%
+                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
+                %>
+                <td>
+                    <a href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
+                        <img src="./new.png" width="25" height="25" alt="">
+
+                    </a></td>
+                <%
+                } else {
+                %>
+                <td class="clickTitle"><a
+                        href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
+                </a>
+
+                </td>
+
+                <%
+                    }
+                %>
+
+                <td><%= recommendList.get(i).getBook_author()%>
+                </td>
+                <td><%= recommendList.get(i).getIs_book_borrowed()%>
+                </td>
+                <td><%= recommendList.get(i).getLikes()%>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row">
+        <h3> 우수 회원 Top3 </h3>
+        <p align="left"> 도서를 가장 많이한 회원 </p>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">순위</th>
+                <th style="background-color: #ced4da; text-align: center;">아이디</th>
+                <th style="background-color: #ced4da; text-align: center;">이름</th>
+                <th style="background-color: #ced4da; text-align: center;">회원등급</th>
+                <th style="background-color: #ced4da; text-align: center;">포인트</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                UserDao userDao = new UserDao();
+                ArrayList<UserDto> excellentUserInfo = userDao.ExcellentUserTop3();
+                for (int i = 0; i < excellentUserInfo.size(); i++) {
+            %>
+            <tr>
+                <td><%= i + 1 %>위
+                </td>
+                <td><%= excellentUserInfo.get(i).getID()%> 님
+                </td>
+                <td><%= excellentUserInfo.get(i).getName()%>
+                </td>
+                <td><%= excellentUserInfo.get(i).getGrade()%>
+                </td>
+                <td><%= excellentUserInfo.get(i).getPoint()%>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+
     </div>
 
 </div>

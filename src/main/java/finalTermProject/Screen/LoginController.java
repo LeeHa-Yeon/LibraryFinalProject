@@ -105,7 +105,7 @@ public class LoginController {
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('You are already logged in.');");
-                script.println("location.href='bookList'");
+                script.println("location.href='main'");
                 script.println("</script>");
             }
             int result = userDao.login(id, pwd);
@@ -120,7 +120,7 @@ public class LoginController {
                 }else{
                     PrintWriter script = response.getWriter();
                     script.println("<script>");
-                    script.println("location.href='bookList'");
+                    script.println("location.href='main'");
                     script.println("</script>");
                     script.close();
                 }

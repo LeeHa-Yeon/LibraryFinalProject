@@ -93,7 +93,7 @@
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('정상적으로 반납처리가 되었습니다. 감사합니다.')");
-            script.println("location.href='bookList'");
+            script.println("location.href='main'");
             script.println("</script>");
         }
         bookDao.deleteLendBook(Integer.parseInt(request.getParameter("num")));

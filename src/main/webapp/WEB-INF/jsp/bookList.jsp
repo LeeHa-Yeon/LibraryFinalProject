@@ -52,7 +52,7 @@
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li>
-                <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
+                <a class="nav-link" href="./main"> <span style="color:#FFFFFF;">HAYON LIBRARY</span></a><%--Anchor(닻)문서내 이동 혹은 링크를 통해 다른 홈페이지로 이동--%>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="./bookList"> <span style="color:#FFFFFF;">도서목록</span></a>
@@ -104,165 +104,19 @@
 <div class="container" style="padding-top: 50px">
 
     <div class="row">
-        <h3> 인기 도서 Top5 </h3>
+        <div>
+            <h3> 도서 목록 화면</h3>
+            <form style="margin-top:20px; margin-left: 850px" action="./bookList" class="form-inline my-2 my-lg-0">
 
-        <p align="right"> 대여를 많이 한 순서 </p>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">순위</th>
-                <th style="background-color: #ced4da; text-align: center;">제목</th>
-                <th style="background-color: #ced4da; text-align: center;">저자</th>
-                <th style="background-color: #ced4da; text-align: center;">상태</th>
-                <th style="background-color: #ced4da; text-align: center;">대여수</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                ArrayList<BookDto> popularList = bookDao.popularBookTop5();
-                for (int i = 0; i < popularList.size(); i++) {
-            %>
-            <tr>
-                <td><%= i + 1 %>위
-                </td>
-                <%
-                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
-                %>
-                <td>
-                    <a href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
-                        <img
-                                src="./new.png" width="25" height="25" alt="">
+                <input type="text" name="search" class="form-control mr-sm-2" type="search" placeholder="내용을입력하세요."
+                       aria-label="search">
 
-                    </a></td>
-                <%
-                } else {
-                %>
-                <td class="clickTitle"><a
-                        href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
-                </a>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
 
-                </td>
+            </form>
 
-                <%
-                    }
-                %>
-
-                <td><%= popularList.get(i).getBook_author()%>
-                </td>
-                <td><%= popularList.get(i).getIs_book_borrowed()%>
-                </td>
-                <td><%= popularList.get(i).getLendCnt()%>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-
-    </div>
-
-
-    <div class="row">
-        <h3> 추천 도서 Top3 </h3>
-        <p align="left"> 추천을 많이 받은 순서 </p>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">순위</th>
-                <th style="background-color: #ced4da; text-align: center;">제목</th>
-                <th style="background-color: #ced4da; text-align: center;">저자</th>
-                <th style="background-color: #ced4da; text-align: center;">상태</th>
-                <th style="background-color: #ced4da; text-align: center;">추천수</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                ArrayList<BookDto> recommendList = bookDao.recommendedBookTop3();
-                for (int i = 0; i < recommendList.size(); i++) {
-            %>
-            <tr>
-                <td><%= i + 1 %>위
-                </td>
-                <%
-                    if (bookDao.getDate().substring(0, 10).equals(popularList.get(i).getRegisteDate().substring(0, 10))) {
-                %>
-                <td>
-                    <a href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
-                        <img src="./new.png" width="25" height="25" alt="">
-
-                    </a></td>
-                <%
-                } else {
-                %>
-                <td class="clickTitle"><a
-                        href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
-                </a>
-
-                </td>
-
-                <%
-                    }
-                %>
-
-                <td><%= recommendList.get(i).getBook_author()%>
-                </td>
-                <td><%= recommendList.get(i).getIs_book_borrowed()%>
-                </td>
-                <td><%= recommendList.get(i).getLikes()%>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-
-    </div>
-
-    <div class="row">
-        <h3> 우수 회원 Top3 </h3>
-        <p align="left"> 도서를 가장 많이한 회원 </p>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">순위</th>
-                <th style="background-color: #ced4da; text-align: center;">아이디</th>
-                <th style="background-color: #ced4da; text-align: center;">이름</th>
-                <th style="background-color: #ced4da; text-align: center;">회원등급</th>
-                <th style="background-color: #ced4da; text-align: center;">포인트</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                UserDao userDao = new UserDao();
-                ArrayList<UserDto> excellentUserInfo = userDao.ExcellentUserTop3();
-                for (int i = 0; i < excellentUserInfo.size(); i++) {
-            %>
-            <tr>
-                <td><%= i + 1 %>위
-                </td>
-                <td><%= excellentUserInfo.get(i).getID()%> 님
-                </td>
-                <td><%= excellentUserInfo.get(i).getName()%>
-                </td>
-                <td><%= excellentUserInfo.get(i).getGrade()%>
-                </td>
-                <td><%= excellentUserInfo.get(i).getPoint()%>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-
-    </div>
-
-
-    <div class="row">
-        <h3> 도서 목록 화면</h3>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+        </div>
+        <table class="table table-striped" style="margin-top: 30px; text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
                 <th style="background-color: #ced4da; text-align: center;">번호</th>
@@ -318,19 +172,26 @@
             %>
             </tbody>
         </table>
-        <%
-            if (pageNumber != 1) {
-        %>
-        <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left">이전</a>
-        <%
-            }
-            if (bookDao.nextPage(pageNumber + 1)) {
-        %>
-        <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-left">다음</a>
-        <%
-            }
-        %>
+
     </div>
+    <center>
+        <div>
+
+            <%
+                if (pageNumber != 1) {
+            %>
+            <a href="bookList?pageNumber=<%=pageNumber-1%>" class="btn btn-secondary btn-arraw-left">이전</a>
+            <%
+                }
+                if (bookDao.nextPage(pageNumber + 1)) {
+            %>
+            <a href="bookList?pageNumber=<%=pageNumber+1%>" class="btn btn-secondary btn-arraw-left">다음</a>
+            <%
+                }
+            %>
+
+        </div>
+    </center>
 
 </div>
 
