@@ -1,9 +1,6 @@
 package finalTermProject.DAO;
 
-import finalTermProject.DTO.ApplyDto;
-import finalTermProject.DTO.BookDto;
-import finalTermProject.DTO.LendDto;
-import finalTermProject.DTO.UserDto;
+import finalTermProject.DTO.*;
 
 import java.awt.print.Book;
 import java.sql.Connection;
@@ -225,6 +222,23 @@ public class BookDao {
         return -1;
     }
 
+    // 예약상태 변경
+    public int updateReservateState(int bookID, String changeState) {
+        String SQL = "update book set book_is_reservation=? where num=?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, changeState);
+            pstmt.setInt(2, bookID);
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+
     //  대여 항목 제거하기
     public int deleteLendBook(int bookID) {
         String SQL = "delete from lendAllList where lend_book_id=?";
@@ -365,6 +379,16 @@ public class BookDao {
         java.util.Date weekAfter = cal.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return formatter.format(weekAfter);
+
+    }
+
+    public String possibleBook(int year, int month, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+        cal.add(Calendar.DATE, +1);
+        java.util.Date possibleStart = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return formatter.format(possibleStart);
 
     }
 
@@ -700,4 +724,22 @@ public class BookDao {
         }
         return bookSearchList;
     }
+
+
+    public int insertReservInfo(int bookID, String bookTitle, String userID,String book_date) {
+        String SQL = "insert into reservatList (book_book_id,book_book_title,book_user_id,book_date,state) values (?,?,?,?,?)";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bookID);
+            pstmt.setString(2, bookTitle);
+            pstmt.setString(3, userID);
+            pstmt.setString(4, book_date);
+            pstmt.setString(5, "예약");
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -2; // 데이터베이스 오류
+    }
+
 }

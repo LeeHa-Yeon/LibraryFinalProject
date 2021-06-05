@@ -103,4 +103,18 @@ public class LibraryUserController {
         return mav;
     }
 
+    // 예약
+    @RequestMapping("/reservationAction")
+    public ModelAndView reservationAction(ModelAndView mav){
+        mav.setViewName("reservationAction");
+        return mav;
+    }
+
+    // 예약
+    @RequestMapping("/reservation")
+    public ModelAndView reservation(ModelAndView mav){
+        mav.setViewName("reservation");
+        return mav;
+    }
+
 }

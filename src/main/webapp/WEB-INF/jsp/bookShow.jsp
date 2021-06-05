@@ -141,7 +141,7 @@
                     </a>
                     <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>"
                        class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
-                    <a onclick="return confirm('예약하시겠습니까 ?')" href="bookAction?num=<%=bookDto.getBook_num()%>"
+                    <a onclick="return confirm('예약하시겠습니까 ?')" href="reservationAction?num=<%=bookDto.getBook_num()%>"
                        class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>
 
                 </div>
