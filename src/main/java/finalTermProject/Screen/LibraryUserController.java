@@ -116,5 +116,11 @@ public class LibraryUserController {
         mav.setViewName("reservation");
         return mav;
     }
+    // 취소
+    @RequestMapping("/cancleReservate")
+    public ModelAndView cancleReservate(ModelAndView mav){
+        mav.setViewName("cancleReservate");
+        return mav;
+    }
 
 }

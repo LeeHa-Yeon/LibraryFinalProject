@@ -13,6 +13,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
+<%@ page import="finalTermProject.DTO.ReservatDto" %>
 
 <!DOCTYPE html>
 <html>
@@ -187,7 +188,7 @@
                     if (list2.get(i).getApply_userId().equals(userID)) {
             %>
             <tr>
-                <td><%=i+1%>
+                <td><%=i + 1%>
                 </td>
                 <%
                     if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
@@ -221,40 +222,101 @@
             </tbody>
         </table>
 
-            <div>
-                <ul class="pagination justify-content-center mt-3">
-                    <li class="page-item">
+        <div>
+            <ul class="pagination justify-content-center mt-3">
+                <li class="page-item">
+                    <%
+                        if (pageNumber <= 0) {
+                    %>
+                    <a class="page-link disabled">이전</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="page-link"
+                       href="./applyList?pageNumber=<%=pageNumber-1%>">이전</a>
+                    <%
+                        }
+                    %>
+                </li>
+                <li class="page-item">
+                    <%
+                        if (list.size() < 6) {
+                    %>
+                    <a class="page-link disabled">다음</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="page-link"
+                       href="./applyList?pageNumber=<%=pageNumber+1%>">다음</a>
+                    <%
+                        }
+                    %>
+                </li>
+            </ul>
+
+        </div>
+        <br>
+        <div>
+            <h3> 예약 도서 목록 </h3>
+            <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+                <thead>
+                <tr>
+                    <th style="background-color: #ced4da; text-align: center;">번호</th>
+                    <th style="background-color: #ced4da; text-align: center;">도서제목</th>
+                    <th style="background-color: #ced4da; text-align: center;">예약자</th>
+                    <th style="background-color: #ced4da; text-align: center;">빌린날짜</th>
+                    <th style="background-color: #ced4da; text-align: center;">상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    BookDao myResiInfo = new BookDao();
+                    ArrayList<ReservatDto> list3 = myResiInfo.getResiInfo(userID);
+                    for (int i = 0; i < list3.size(); i++) {
+                %>
+                <tr>
+                    <td>
+                        <%=i + 1%>
+                    </td>
+                    <td><%= list3.get(i).getBook_book_title()%>
+                    </td>
+                    <td><%= list3.get(i).getBook_user_id()%>
+                    </td>
+                    <td><%= list3.get(i).getBook_date().substring(0, 10)%>
+                    </td>
+                    <td>
                         <%
-                            if (pageNumber <= 0) {
+                            int deadlineDate = bookDao.dateCompareTo(bookDao.getDate().substring(0, 10), list3.get(i).getBook_date().substring(0, 10));
+                            if (deadlineDate == -1) {
+                                // 이전이면 예약취소 버튼
                         %>
-                        <a class="page-link disabled">이전</a>
+                        <a onclick="return confirm('예약취소하시겠습니까 ?')"
+                           href="cancleReservate?res_num=<%=list3.get(i).getReservat_num()%>&num=<%=list3.get(i).getBook_book_id()%>"
+                           class="btn btn-outline-danger pull-right mx-lg-5" style="margin:0px auto">예약취소</a>
                         <%
-                        } else {
+                        } else if (deadlineDate == 0) {
+                            // 당일이 되면 대여중으로 나타남
                         %>
-                        <a class="page-link"
-                           href="./applyList?pageNumber=<%=pageNumber-1%>">이전</a>
+                        <a onclick="return confirm('대여하시겠습니까 ?')"
+                           href="lendAction?num=<%=list3.get(i).getBook_book_id()%>&res_num=<%=list3.get(i).getReservat_num()%>"
+                           class="btn btn-outline-info pull-right mx-lg-5" style="margin:0px auto">대여하기</a>
                         <%
+                        } else { // 시간이 지나면 자동 삭제되
+                        %>
+                        <script>location.href = 'cancleReservate?res_num=<%=list3.get(i).getReservat_num()%>&num=<%=list3.get(i).getBook_book_id()%>'</script>
+                        <%
+
                             }
                         %>
-                    </li>
-                    <li class="page-item">
-                        <%
-                            if (list.size() < 6) {
-                        %>
-                        <a class="page-link disabled">다음</a>
-                        <%
-                        } else {
-                        %>
-                        <a class="page-link"
-                           href="./applyList?pageNumber=<%=pageNumber+1%>">다음</a>
-                        <%
-                            }
-                        %>
-                    </li>
-                </ul>
 
-            </div>
-
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+                </tbody>
+            </table>
+        </div>
 
 
     </div>

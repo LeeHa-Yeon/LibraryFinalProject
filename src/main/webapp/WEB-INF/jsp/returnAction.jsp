@@ -73,7 +73,7 @@
         UserDto myInfo = userDao.getUserInfo(userID);
 
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         Date time = new Date();
         String currentDate = format1.format(time);
         LendDto returnDate = bookDao.selectLendInfo(Integer.parseInt(request.getParameter("num")));

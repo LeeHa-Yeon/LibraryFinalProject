@@ -29,6 +29,8 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="finalTermProject.DTO.LendDto" %>
+<%@ page import="java.util.ArrayList" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -40,8 +42,10 @@
 
 <body>
 <%
+
     BookDao bookDao = new BookDao();
     UserDao userDao = new UserDao();
+
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -95,39 +99,48 @@
             } else {
                 userDao.changeNormalState(userID);
 
+                ArrayList<LendDto> lendInfo = bookDao.getLendSize(Integer.parseInt(request.getParameter("num")));
+                bookDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
+                if(lendInfo.size()==0){
+                    bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출가능");
+                }else {
+                    bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출불가(대여중)");
+                }
+                bookDao.updateReservateState(Integer.parseInt(request.getParameter("num")), "예약가능");
+
+
                 if (bookInfo.getIs_book_borrowed().equals("대출가능")) {
                     userDao.lendCntChange(userID, myInfo.getBorrowedLimit() - 1);
                     bookDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
                     bookDao.updateLendState(bookID, "대출불가(대여중)");
                     String nowGradeInfo = userDao.getUserInfo(userID).getGrade();
                     userDao.changePoint(userID, myInfo.getPoint() + 1);
-                    bookDao.plusLendCnt(bookID,bookInfo.getLendCnt());
+                    bookDao.plusLendCnt(bookID, bookInfo.getLendCnt());
                     PrintWriter script = response.getWriter();
-                    if (myInfo.getPoint()>=100){
-                        userDao.changeGrade(userID,"우수회원");
+                    if (myInfo.getPoint() >= 100) {
+                        userDao.changeGrade(userID, "우수회원");
                         String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
-                        if(nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("우수회원")) {
+                        if (nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("우수회원")) {
                             script.println("<script>");
                             script.println("alert('축하드립니다. 우수 회원이 되었습니다.')");
                             script.println("</script>");
                         }
-                    }
-                    else if(myInfo.getPoint()<100 && myInfo.getPoint()>=0){
-                        userDao.changeGrade(userID,"일반회원");
+                    } else if (myInfo.getPoint() < 100 && myInfo.getPoint() >= 0) {
+                        userDao.changeGrade(userID, "일반회원");
                         String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
-                        if(nowGradeInfo.equals("우수회원") && nextGradeInfo.equals("일반회원")) {
+                        if (nowGradeInfo.equals("우수회원") && nextGradeInfo.equals("일반회원")) {
                             script.println("<script>");
                             script.println("alert('일반회원으로 강등되었습니다. 조심만 분발해주세요')");
                             script.println("</script>");
-                        }else if (nowGradeInfo.equals("블랙회원") && nextGradeInfo.equals("일반회원")) {
+                        } else if (nowGradeInfo.equals("블랙회원") && nextGradeInfo.equals("일반회원")) {
                             script.println("<script>");
                             script.println("alert('일반회원이 되었습니다. 우수회원까지 분발해주세요')");
                             script.println("</script>");
                         }
-                    }else{
-                        userDao.changeGrade(userID,"블랙회원");
+                    } else {
+                        userDao.changeGrade(userID, "블랙회원");
                         String nextGradeInfo = userDao.getUserInfo(userID).getGrade();
-                        if(nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("블랙회원")) {
+                        if (nowGradeInfo.equals("일반회원") && nextGradeInfo.equals("블랙회원")) {
                             script.println("<script>");
                             script.println("alert('블랙 회원입니다. 포인트 -10점시 자동으로 탈퇴됩니다.')");
                             script.println("</script>");
@@ -156,10 +169,7 @@
             script.println("</script>");
         }
     }
-
 %>
-
-
 <script src="./js/jquery-3.4.1.min.js"></script>
 <script src="./js/popper.js"></script>
 <script src="./js/bootstrap.min.js"></script>

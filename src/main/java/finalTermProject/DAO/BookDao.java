@@ -140,6 +140,32 @@ public class BookDao {
         return null;
     }
 
+    // 내 예약 상태 보기
+    public ArrayList<ReservatDto> getResiInfo(String userID) {
+        String SQL = "select * from reservatList where book_user_id = ? order by book_date";
+        ArrayList<ReservatDto> list = new ArrayList<ReservatDto>();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, userID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ReservatDto reservatDto = new ReservatDto();
+                reservatDto.setReservat_num(rs.getInt(1));
+                reservatDto.setBook_book_id(rs.getInt(2));
+                reservatDto.setBook_book_title(rs.getString(3));
+                reservatDto.setBook_user_id(rs.getString(4));
+                reservatDto.setBook_date(rs.getString(5));
+                reservatDto.setState(rs.getString(6));
+                list.add(reservatDto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+
     // 내 대여 상태 보기
     public ArrayList<LendDto> getLendInfo(String userID) {
         String SQL = "select * from lendAllList where lend_user_id = ?";
@@ -147,6 +173,29 @@ public class BookDao {
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, userID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                LendDto lendDto = new LendDto();
+                lendDto.setLend_book_id(rs.getInt(2));
+                lendDto.setLend_book_title(rs.getString(3));
+                lendDto.setLend_user_id(rs.getString(4));
+                lendDto.setLend_date(rs.getString(5));
+                lendDto.setReturn_date(rs.getString(6));
+                list.add(lendDto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 내 대여 상태 보기
+    public ArrayList<LendDto> getLendSize(int bookID) {
+        String SQL = "select * from lendAllList where lend_book_id = ?";
+        ArrayList<LendDto> list = new ArrayList<LendDto>();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bookID);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 LendDto lendDto = new LendDto();
@@ -741,5 +790,21 @@ public class BookDao {
         }
         return -2; // 데이터베이스 오류
     }
+
+    //  대여 항목 제거하기
+    public int cancleReservation(int reserID) {
+        String SQL = "delete from reservatList where num=?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, reserID);
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
 
 }

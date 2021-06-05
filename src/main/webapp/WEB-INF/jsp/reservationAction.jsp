@@ -95,8 +95,9 @@
     </script>
     <input type="hidden" name="num" value="<%=bookID%>">
     <input type="submit" class="btn btn-dark form-control" value="예약" Style="width: 100px;">
-    <button href="bookShow?num=<%=request.getParameter("num")%>>">예약취소</button>
+
 </form>
+<button href="bookShow?num=<%=request.getParameter("num")%>>">예약취소</button>
 <%
 
 
@@ -150,8 +151,8 @@
     <input type="hidden" name="num" value="<%=bookID%>">
 
     <input type="submit" class="btn btn-dark form-control" value="예약" Style="width: 100px;">
-    <button href="bookShow?num=<%=request.getParameter("num")%>>">예약취소</button>
 </form>
+<button href="bookShow?num=<%=request.getParameter("num")%>>">예약취소</button>
 <%
 
             } else {
