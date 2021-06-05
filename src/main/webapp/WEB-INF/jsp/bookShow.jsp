@@ -233,18 +233,14 @@
             %>
             <small>(<%=commentInfo.getRegister_date().substring(0, 10)%>)&nbsp;</small>
             <%
-                }if(userID.equals(commentInfo.getUser_id())){
+                }
+                if(userID.equals(commentInfo.getUser_id())){
                 %>
 
             <a onclick = "return confirm('수정하시겠습니까 ?')"
                style="color: #0069d9 " data-toggle="modal" href="#modifyModal" >수정</a>
             <a onclick = "return confirm('삭제하시겠습니까 ?')" href = "commentDelete?num=<%=bookDto.getBook_num()%>&commentID=<%=commentInfo.getComment_num()%>"
                style="color: #a71d2a">삭제</a>
-            <%
-                }
-            %>
-            <hr>
-
             <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -280,6 +276,10 @@
                     </div>
                 </div>
             </div>
+            <%
+                }
+            %>
+            <hr>
 
             <%
             }
