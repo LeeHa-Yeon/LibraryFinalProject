@@ -1,6 +1,7 @@
 package finalTermProject;
 
 import finalTermProject.DAO.BookDao;
+import finalTermProject.DAO.CommentDao;
 import finalTermProject.DAO.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,5 +17,10 @@ public class JavaConfig {
     @Bean
     public BookDao bookDao() {
         return new BookDao();
+    }
+
+    @Bean
+    public CommentDao commentDao() {
+        return new CommentDao();
     }
 }

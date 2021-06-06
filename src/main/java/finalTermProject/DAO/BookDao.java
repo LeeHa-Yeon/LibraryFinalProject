@@ -346,9 +346,9 @@ public class BookDao {
 
     // 새 도서 등록하기
     public int addNewBook(int newIsbn, String newTitle, String newAuthor, String newPublisher, String newCategory, String newImage) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar currentTime = Calendar.getInstance();
-        String SQL = "insert into book (isbn,book_title,book_author,book_publisher,book_category,book_is_borrowed,book_is_reservation,REGDATE,picture) values (?,?,?,?,?,?,?,?,?)";
+        String SQL = "insert into book (isbn,book_title,book_author,book_publisher,book_category,book_is_borrowed,book_is_reservation,REGDATE,picture,views,lendCnt,likes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, newIsbn);
@@ -360,6 +360,9 @@ public class BookDao {
             pstmt.setString(7, "예약가능");
             pstmt.setString(8, format.format(currentTime.getTime()));
             pstmt.setString(9, newImage);
+            pstmt.setInt(10, 0);
+            pstmt.setInt(11, 0);
+            pstmt.setInt(12, 0);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
