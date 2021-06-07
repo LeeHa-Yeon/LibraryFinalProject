@@ -34,7 +34,7 @@
                 </a>
                     <div class="dropdown-menu" aria-labelledby="dropdown" >
                         <a class="dropdown-item" href="login">로그인</a>
-                        <a class="dropdown-item" href="find_info">아이디/비번찾기</a>
+                        <a class="dropdown-item" href="find_info">계정찾기</a>
                         <a class="dropdown-item" href="join">회원가입</a>
                     </div>
             </li>

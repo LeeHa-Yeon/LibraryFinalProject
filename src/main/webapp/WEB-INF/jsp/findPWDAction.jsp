@@ -87,7 +87,14 @@
                             <div class="form-group" style="padding-top: 35px">
                                 <h6><%=request.getParameter("inputID")+"의 비밀번호"%></h6>
                                 <br>
-                                <h4 style="color:#ba8b00"><%=findPWD%></h4>
+                                <h4 style="color:#ba8b00">
+                                    <% if (findPWD.equals("")) {
+                                    %>
+                                    찾을 수 없습니다.
+                                    <%
+                                    } else { %>
+                                    <%=findPWD%>
+                                    <% }%></h4>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-center" style="padding-top: 25px;">

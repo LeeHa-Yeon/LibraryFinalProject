@@ -94,7 +94,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdown">
                     <a class="dropdown-item" href="myInfo">내 정보 보기</a>
                     <a class="dropdown-item" href="changePwd">비밀번호 변경</a>
-                    <a class="dropdown-item" href="myLendList">내 대여 상태</a>
+                    <a class="dropdown-item" href="myLendList">나의 서재</a>
                     <a class="dropdown-item" href="logout">로그아웃</a>
                     <a class="dropdown-item" href="signout">회원 탈퇴</a>
 
@@ -139,7 +139,7 @@
                     <a class="right carousel-control" href="#carouselExampleSlidesOnly" data-slid="next">
                         <span class="glyphicon-chevron-right"></span>
                     </a>
-                    <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>"
+                    <a onclick="return confirm('대여하시겠습니까 ?')" href="lendAction?num=<%=bookDto.getBook_num()%>&res_num=0"
                        class="btn btn-outline-info pull-right mx-lg-5" style="margin:30px auto">대여</a>
                     <a onclick="return confirm('예약하시겠습니까 ?')" href="reservationAction?num=<%=bookDto.getBook_num()%>"
                        class="btn btn-outline-warning pull-right" style="margin: 10px auto">예약</a>

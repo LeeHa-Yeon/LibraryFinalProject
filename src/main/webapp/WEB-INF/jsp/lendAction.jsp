@@ -102,15 +102,15 @@
                 userDao.changeNormalState(userID);
 
                 ArrayList<LendDto> lendInfo = libraryDao.getLendSize(Integer.parseInt(request.getParameter("num")));
-                libraryDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
-                if(lendInfo.size()==0){
-                    bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출가능");
-                }else {
-                    bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출불가(대여중)");
+                if (libraryDao.cancleReservation(Integer.parseInt(request.getParameter("res_num"))) != -1) {
+                    if (lendInfo.size() == 0) {
+                        bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출가능");
+                    } else {
+                        bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출불가(대여중)");
+                    }
+                    bookDao.updateReservateState(Integer.parseInt(request.getParameter("num")), "예약가능");
+
                 }
-                bookDao.updateReservateState(Integer.parseInt(request.getParameter("num")), "예약가능");
-
-
                 if (bookInfo.getIs_book_borrowed().equals("대출가능")) {
                     userDao.lendCntChange(userID, myInfo.getBorrowedLimit() - 1);
                     libraryDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
@@ -161,6 +161,7 @@
                     script.println("history.back()");
                     script.println("</script>");
                 }
+
             }
 
         } else {

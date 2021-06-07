@@ -20,7 +20,7 @@
 <body>
 <%
     UserDao userDao = new UserDao();
-    String findId = userDao.findID(request.getParameter("inputName"),request.getParameter("inputPhone"),request.getParameter("inputSSN"));
+    String findId = userDao.findID(request.getParameter("inputName"), request.getParameter("inputPhone"), request.getParameter("inputSSN"));
     System.out.println(findId);
 
 %>
@@ -54,16 +54,25 @@
         <div class="col-lg-10">
             <div class="jumbotron" style="padding-top: 40px; height: 550px">
                 <h3 style="text-align: center; ">회원 계정 찾기</h3>
-                <div class="jumbotron float-left col-md-4" style="padding-top: 40px; margin-top: 30px; margin-left: 60px; background-color: #ced4da">
+                <div class="jumbotron float-left col-md-4"
+                     style="padding-top: 40px; margin-top: 30px; margin-left: 60px; background-color: #ced4da">
                     <form method="post" action="login">
                         <h4 style="text-align: center; ">아이디 찾기</h4>
                         <div>
                             <div class="form-group" style="padding-top: 35px">
-<%--                                <input type="text" class="form-control" placeholder="이름" name="inputName"--%>
-<%--                                       maxlength="20">--%>
-                            <h6><%=request.getParameter("inputName")+"님의 아이디"%></h6>
-                            <br>
-                             <h4 style="color:#ba8b00"><%=findId%></h4>
+                                <%--                                <input type="text" class="form-control" placeholder="이름" name="inputName"--%>
+                                <%--                                       maxlength="20">--%>
+                                <h6><%=request.getParameter("inputName") + "님의 아이디"%>
+                                </h6>
+                                <br>
+                                <h4 style="color:#ba8b00">
+                                    <% if (findId.equals("")) {
+                                    %>
+                                    찾을 수 없습니다.
+                                    <%
+                                    } else { %>
+                                    <%=findId%>
+                                    <% }%></h4>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-center" style="padding-top: 25px;">
@@ -75,7 +84,8 @@
                     </form>
                 </div>
                 <%--                비밀번호 찾기--%>
-                <div class="jumbotron float-right col-md-4" style="padding-top: 40px; margin-top: 30px; margin-right: 60px; background-color : #ced4da">
+                <div class="jumbotron float-right col-md-4"
+                     style="padding-top: 40px; margin-top: 30px; margin-right: 60px; background-color : #ced4da">
                     <form method="post" action="findPWDAction">
                         <h4 style="text-align: center; ">비밀번호 찾기</h4>
                         <div>

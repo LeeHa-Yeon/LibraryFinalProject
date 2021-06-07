@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     UserDao userDao;
 
-    // 회원가입
+    // 회원가입 ㅇ
     @RequestMapping("/join")
     public ModelAndView join(ModelAndView mav){
         mav.setViewName("join");  // join.jsp
@@ -47,7 +47,16 @@ public class LoginController {
             script.println("history.back();");
             script.println("</script>");
             script.close();
-        } else {
+        }
+        if(!pwd.equals(pwdCheck)){
+            PrintWriter script = response.getWriter();
+            script.println("<script>");
+            script.println("alert('Please check your password again');");
+            script.println("history.back();");
+            script.println("</script>");
+            script.close();
+        }
+        else {
             int result = userDao.join(id,pwd,name,email,phone,ssn,address);
             if (result == -1) {
                 PrintWriter script = response.getWriter();
@@ -67,7 +76,7 @@ public class LoginController {
         return mav;
     }
 
-    // 로그인
+    // 로그인 ㅇ
     @RequestMapping("/login")
     public ModelAndView login(ModelAndView mav){
         mav.setViewName("login");
@@ -82,14 +91,12 @@ public class LoginController {
         if (id.equals("") || pwd.equals("")) {
             PrintWriter script = response.getWriter();
             if (id.equals("")) {
-                System.out.println("들어갔니222");
                 script.println("<script>");
                 script.println("alert('Please enter your ID');");
                 script.println("history.back();");
                 script.println("</script>");
                 script.close();
             }else if (pwd.equals("")) {
-                System.out.println("들어갔니");
                 script.println("<script>");
                 script.println("alert('Please enter your PASSWORD');");
                 script.println("history.back();");
@@ -163,20 +170,20 @@ public class LoginController {
         return mav;
     }
 
-    // 아이디 비번 찾기
+    // 아이디 비번 찾기 o
     @RequestMapping("/find_info")
     public ModelAndView find_info(ModelAndView mav){
         mav.setViewName("find_info");
         return mav;
     }
 
-    // 아이디 찾기
+    // 아이디 찾기 o
     @RequestMapping("/findIDAction")
     public ModelAndView findIDAction(ModelAndView mav){
         mav.setViewName("findIDAction");
         return mav;
     }
-    // 비번 찾기
+    // 비번 찾기 o
     @RequestMapping("/findPWDAction")
     public ModelAndView findPWDAction(ModelAndView mav){
         mav.setViewName("findPWDAction");

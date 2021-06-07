@@ -90,7 +90,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdown">
                     <a class="dropdown-item" href="myInfo?myID=">내 정보 보기</a>
                     <a class="dropdown-item" href="changePwd">비밀번호 변경</a>
-                    <a class="dropdown-item" href="myLendList">내 대여 상태</a>
+                    <a class="dropdown-item" href="myLendList">나의 서재</a>
                     <a class="dropdown-item" href="logout">로그아웃</a>
                     <a class="dropdown-item" href="signout">회원 탈퇴</a>
 
