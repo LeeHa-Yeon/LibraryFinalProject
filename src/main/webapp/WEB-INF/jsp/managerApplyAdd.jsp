@@ -9,6 +9,7 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.ApplyDto" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -21,6 +22,7 @@
 <body>
 <%
     BookDao bookDao = new BookDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -34,9 +36,9 @@
         script.close();
     } else{
         if(userID.equals("manager")){
-            ApplyDto applyDto = bookDao.getApplyInfo(Integer.parseInt(request.getParameter("num")));
+            ApplyDto applyDto = libraryDao.getApplyInfo(Integer.parseInt(request.getParameter("num")));
             bookDao.addNewBook(applyDto.getApply_isbn(),applyDto.getApply_title(),applyDto.getApply_author(),applyDto.getApply_publisher(),applyDto.getApply_category(),applyDto.getApply_image());
-            bookDao.updateApplyInfo(Integer.parseInt(request.getParameter("num")));
+            libraryDao.updateApplyInfo(Integer.parseInt(request.getParameter("num")));
 
             PrintWriter script = response.getWriter();
             script.println("<script>");

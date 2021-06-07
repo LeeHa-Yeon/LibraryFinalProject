@@ -20,7 +20,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href=""> <img src = "./logo.png" width="120" height="50" alt=""><span style="color:#FFFFFF;"></span></a>
+    <a class="navbar-brand" href=""> <img src = "./image/logo.png" width="120" height="50" alt=""><span style="color:#FFFFFF;"></span></a>
 
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
@@ -35,7 +35,7 @@
     <div class="container" style="padding-top: 180px">
         <h1> HAYEON Library</h1><br>
         2017301063 이하연 스프링 기말 텀 프로젝트<br><br>
-        <img src = "./hi.png" alt="">
+        <img src = "./image/hi.png" alt="">
     </div>
 
     <div class="navbar-nav align-top= col-3" style="padding-top: 40px">

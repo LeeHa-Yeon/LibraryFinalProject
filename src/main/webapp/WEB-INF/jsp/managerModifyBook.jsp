@@ -58,7 +58,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 

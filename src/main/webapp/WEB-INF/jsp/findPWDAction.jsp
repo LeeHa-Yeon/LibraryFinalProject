@@ -7,7 +7,6 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 비밀번호 찾기 page </title>
 </head>
 
 <body>
@@ -26,7 +25,7 @@
 
 %>
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href="./login"> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href="./login"> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 

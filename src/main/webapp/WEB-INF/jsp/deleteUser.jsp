@@ -1,20 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> lend page </title>
+    <title> 회원 삭제하기 </title>
 </head>
 
 <body>
 <%
-    BookDao bookDao =  new BookDao();
     UserDao userDao = new UserDao();
     String userID = null;
     if(session.getAttribute("userID")!=null){

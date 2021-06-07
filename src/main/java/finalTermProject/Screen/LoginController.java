@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 
 @Controller
 public class LoginController {
+
     @Autowired
     UserDao userDao;
 
@@ -182,6 +183,12 @@ public class LoginController {
         return mav;
     }
 
+    // 관리자 정보
+    @RequestMapping("/managerInfo")
+    public ModelAndView managerInfo(ModelAndView mav){
+        mav.setViewName("managerInfo");
+        return mav;
+    }
 
     // 내 정보 화면
     @RequestMapping("/myInfo")
@@ -231,7 +238,6 @@ public class LoginController {
         mav.setViewName("signout");
         return mav;
     }
-
 
 
 }

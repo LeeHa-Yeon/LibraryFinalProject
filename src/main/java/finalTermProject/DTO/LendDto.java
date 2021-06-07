@@ -1,10 +1,10 @@
 package finalTermProject.DTO;
 
 public class LendDto {
-    private int lend_num; //고유키
-    private int lend_book_id;  // 빌린책고유의key
-    private String lend_book_title; // 빌린책 제목
-    private String lend_user_id;  // 빌린사람이름
+    private int lend_num; // 고유키
+    private int lend_book_id;  // 책 고유의 키
+    private String lend_book_title; // 빌린 책 제목
+    private String lend_user_id;  // 빌린 사람 이름
     private String lend_date;  // 대출일
     private String return_date; // 반납일
 

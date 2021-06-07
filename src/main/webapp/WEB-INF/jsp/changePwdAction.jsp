@@ -15,7 +15,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> myInfo modify page </title>
+    <title> 비밀번호 변경 액션 </title>
 </head>
 
 <body>

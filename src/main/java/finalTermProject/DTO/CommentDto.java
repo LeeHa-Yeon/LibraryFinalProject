@@ -1,10 +1,11 @@
 package finalTermProject.DTO;
 
+// 리뷰
 public class CommentDto {
     private int comment_num; //고유키
-    private int book_id;  // 북아이디
-    private String user_id; // 작성자
-    private String content;  // 내용
+    private int book_id;  // 책 아이디
+    private String user_id; // 리뷰 작성자
+    private String content;  // 리뷰 내용
     private String register_date;  // 작성일자
 
     public int getComment_num() {

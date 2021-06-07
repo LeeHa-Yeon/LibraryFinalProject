@@ -1,7 +1,7 @@
 package finalTermProject.DTO;
 
 public class BookDto {
-    private int book_num;
+    private int book_num;  // 책 고유키
     private int book_ISBN;  // 국제 표준 도서 번호
     private String book_title;  // 책 제목
     private String book_author;  // 저자(지은이)
@@ -9,11 +9,11 @@ public class BookDto {
     private String book_category;   // 카테고리
     private String is_book_borrowed;  // 대여가능여부
     private String is_book_reservation;  // 예약중인지 아닌지
-    private String registeDate;
+    private String registeDate;    // 도서 등록 날짜
     private String book_image;  // 책 이미지
-    private int views;
-    private int lendCnt;
-    private int likes;
+    private int views;  // 도서 조회수
+    private int lendCnt;  // 도서 대여수
+    private int likes;  // 도서 좋아요수
 
     public int getBook_num() {
         return book_num;

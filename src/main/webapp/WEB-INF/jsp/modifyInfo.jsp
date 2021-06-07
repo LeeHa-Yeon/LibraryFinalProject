@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 정보 수정하기 page </title>
     <style type="text/css">
         a,a:hover{
             color:#004085;
@@ -48,7 +48,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src = "./logo.png" width="120" height="50" alt=""><span style="color:#FFFFFF;"></span></a>
+    <a class="navbar-brand" href=""> <img src = "./image/logo.png" width="120" height="50" alt=""><span style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
     <div id="navbar" class="collapse navbar-collapse">
@@ -103,7 +103,7 @@
     </div>
 </nav>
 <div class = "container" style="padding-top: 50px">
-    <div class="row">
+    <div class="col">
         <form method="post" action="modifyInfoAction?userID=<%=userID%>">
             <table class = "table table-striped" style=" table-layout: fixed; padding-top: 40px; border: 1px solid #dddddd">
                 <thead>
@@ -162,7 +162,9 @@
                 </tr>
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-dark" style="float: none; margin:0 auto" value="저장하기">
+            <center>
+                <input type="submit" class="btn btn-dark" style="float: none; margin:0 auto" value="저장하기">
+            </center>
         </form>
     </div>
 

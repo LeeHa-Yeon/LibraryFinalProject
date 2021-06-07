@@ -13,12 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 아이디 비번 찾기 페이지 </title>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href="./login"> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href="./login"> <img src="./image/
+    logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 

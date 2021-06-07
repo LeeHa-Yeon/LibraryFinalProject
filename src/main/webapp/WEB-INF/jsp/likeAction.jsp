@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> lend page </title>
+    <title> 좋아요 액션  </title>
 </head>
 
 <body>

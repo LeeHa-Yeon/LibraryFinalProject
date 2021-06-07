@@ -42,7 +42,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
     <%
@@ -176,7 +176,7 @@
                 </tr>
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-dark" style="float: none; margin:0 auto" value="비밀번호 변경하기">
+            <input type="submit" class="btn btn-dark" style="float: none; margin:30px auto" value="비밀번호 변경하기">
             <a href="bookList" class="btn btn-light pull-right">다음에 변경하기</a>
         </form>
     </div>

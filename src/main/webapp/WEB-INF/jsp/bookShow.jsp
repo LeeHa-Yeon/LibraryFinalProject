@@ -11,7 +11,6 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.awt.print.Book" %>
 <%@ page import="finalTermProject.DTO.CommentDto" %>
 <%@ page import="finalTermProject.DAO.CommentDao" %>
 <%@ page import="java.text.SimpleDateFormat" %>
@@ -24,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> book info show </title>
+    <title> 도서 정보 화면 </title>
     </style>
 </head>
 
@@ -48,10 +47,11 @@
     }
     BookDto bookDto = new BookDao().getBookInfo(bookID);
     bookDao.plusViews(bookID, bookDto.getViews());
+
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -120,15 +120,15 @@
                      style=" padding-left: 40px; margin-top: 40px; float: left; width: 30%;">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="First slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="Second slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="Third slide">
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                         <a onclick="return confirm('추천하시겠습니까 ?')"
                            href="likeAction?num=<%=bookDto.getBook_num()%>"
                            class="btn btn-outline-primary pull-right mx-lg-5" style="margin:0px auto"><img
-                                src="./like.png" width="30" height="30" alt=""> <%= bookDto.getLikes()%>
+                                src="./image/like.png" width="30" height="30" alt=""> <%= bookDto.getLikes()%>
                         </a>
                     </center>
                 </div>
@@ -294,12 +294,12 @@
     <div class="card bg-light mt-3">
         <form method="get" action="./commentAction">
             <div class="card-body">
-                <label>댓글달기</label>
+                <label>기대평</label>
                 <textarea name="content" class="form-control col-12" maxlength="50"
-                          style="height: 30px;"></textarea>
+                          style="height: 30px;" placeholder="이 책의 기대평(한줄평)을 간단히 남겨주세요."></textarea>
                 <input type="hidden" name="num" value="<%=bookDto.getBook_num()%>">
             </div>
-            <button class="btn btn-outline-dark form-control col-12" type="submit">입력</button>
+            <button class="btn btn-outline-dark form-control col-12" type="submit">등록하기</button>
         </form>
     </div>
     <center><a href="main" class="btn btn-dark pull-right" style="margin: 30px auto">Home</a></center>

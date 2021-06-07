@@ -9,7 +9,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
 <%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="org.apache.catalina.User" %>
 
 <!DOCTYPE html>
 <html>
@@ -46,18 +45,17 @@
         myInfo = userDao.getUserInfo(userID);
     }
 
-    if (myInfo.getPoint()>=100){
-        userDao.changeGrade(userID,"우수회원");
-    }
-    else if(myInfo.getPoint()<100 && myInfo.getPoint()>=0){
-        userDao.changeGrade(userID,"일반회원");
-    }else{
-        userDao.changeGrade(userID,"블랙회원");
+    if (myInfo.getPoint() >= 100) {
+        userDao.changeGrade(userID, "우수회원");
+    } else if (myInfo.getPoint() < 100 && myInfo.getPoint() >= 0) {
+        userDao.changeGrade(userID, "일반회원");
+    } else {
+        userDao.changeGrade(userID, "블랙회원");
     }
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -170,7 +168,8 @@
                 <%
                     if (myInfo.getIsOverdue().equals("정상")) {
                 %>
-                <td style="text-align: left;" colspan="2"><%=myInfo.getIsOverdue()%></td>
+                <td style="text-align: left;" colspan="2"><%=myInfo.getIsOverdue()%>
+                </td>
                 <%
                 } else {
                 %>
@@ -189,12 +188,17 @@
         <%
             if (userID != null && userID.equals(myInfo.getID())) {
         %>
-        <a href="modifyInfo?userID=<%=userID%>" class="btn btn-dark float-none mr-auto">정보 수정</a>
+
 
         <%
             }
         %>
     </div>
+    <center>
+        <div>
+            <a href="modifyInfo?userID=<%=userID%>" class="btn btn-dark float-none mr-auto">정보 수정</a>
+        </div>
+    </center>
 
 </div>
 

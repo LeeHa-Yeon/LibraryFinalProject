@@ -70,7 +70,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -141,15 +141,15 @@
                      style=" padding-left: 40px; margin-top: 40px; float: left; width: 30%;">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="First slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="Second slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="./image/수상한북클럽.png" width="300" height="350"
+                            <img class="d-block w-100" src="./image/<%=bookDto.getBook_image()%>.png" width="300" height="350"
                                  alt="Third slide">
                         </div>
                     </div>

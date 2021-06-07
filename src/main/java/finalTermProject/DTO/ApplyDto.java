@@ -1,17 +1,17 @@
 package finalTermProject.DTO;
 
 public class ApplyDto {
-    private int apply_num;
+    private int apply_num;  // 신청 도서 고유키
     private int apply_isbn;  // 국제 표준 도서 번호
-    private String apply_title;  // 책 제목
-    private String apply_author;  // 저자(지은이)
-    private String apply_publisher; // 출판사
-    private String apply_category;   // 카테고리
-    private String apply_userId;  // 요청고객
-    private String apply_image;  // 이미지
-    private String apply_state;  // 상태
-    private String apply_Date;  // 요청날짜
-    private String accept_Date; // 수락날짜
+    private String apply_title;  // 신청 책 제목
+    private String apply_author;  // 신청 저자(지은이)
+    private String apply_publisher; // 신청 출판사
+    private String apply_category;   // 신청 카테고리
+    private String apply_userId;  // 신청 요청고객
+    private String apply_image;  // 신청 이미지
+    private String apply_state;  // 신청 상태
+    private String apply_Date;  // 신청 요청날짜
+    private String accept_Date; // 신청 수락날짜
 
     public int getApply_num() {
         return apply_num;

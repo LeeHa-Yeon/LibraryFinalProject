@@ -7,11 +7,9 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 대여 목록 페이지 page </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -47,7 +45,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -108,8 +106,14 @@
 </nav>
 
 <div class = "container" style="padding-top: 50px">
+
+    <center>
+        <div style="margin-bottom: 20px">
+            <h3> 고객 빌린 도서 목록 </h3>
+        </div>
+    </center>
     <div class="row">
-        <h3> 고객 빌린 도서 목록 </h3>
+
         <table class = "table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -122,8 +126,8 @@
             </thead>
             <tbody>
             <%
-                BookDao bookDao = new BookDao();
-                ArrayList<LendDto> list = bookDao.allLendInfo(pageNumber);
+                LibraryDao libraryDao = new LibraryDao();
+                ArrayList<LendDto> list = libraryDao.allLendInfo(pageNumber);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>

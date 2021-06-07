@@ -12,7 +12,7 @@
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 메인 page </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -34,13 +34,15 @@
 <%
     String userID = null;
     BookDao bookDao = new BookDao();
+    LibraryDao libraryDao = new LibraryDao();
+
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
     }
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -99,9 +101,11 @@
 <div class="container" style="padding-top: 50px">
 
     <div class="row">
-        <h3> 인기 도서 Top5 </h3>
+        <div class="col" >
+            <h3 align="center"> 인기 도서 Top5 </h3>
+            <p style="margin-bottom: 10px" align="right"> 대여를 많이 한 순서 </p>
+        </div>
 
-        <p align="right"> 대여를 많이 한 순서 </p>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -114,7 +118,7 @@
             </thead>
             <tbody>
             <%
-                ArrayList<BookDto> popularList = bookDao.popularBookTop5();
+                ArrayList<BookDto> popularList = libraryDao.popularBookTop5();
                 for (int i = 0; i < popularList.size(); i++) {
             %>
             <tr>
@@ -126,7 +130,7 @@
                 <td>
                     <a href="bookShow?num=<%=popularList.get(i).getBook_num()%>"><%= popularList.get(i).getBook_title()%>
                         <img
-                                src="./new.png" width="25" height="25" alt="">
+                                src="./image/new.png" width="25" height="25" alt="">
 
                     </a></td>
                 <%
@@ -156,11 +160,13 @@
         </table>
 
     </div>
-
+    <hr>
 
     <div class="row">
-        <h3> 추천 도서 Top3 </h3>
-        <p align="left"> 추천을 많이 받은 순서 </p>
+        <div class="col" style="margin-top: 10px">
+            <h3 align="center"> 추천 도서 Top3 </h3>
+            <p style="margin-bottom: 10px" align="right"> 추천을 많이 받은 순서 </p>
+        </div>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -173,7 +179,7 @@
             </thead>
             <tbody>
             <%
-                ArrayList<BookDto> recommendList = bookDao.recommendedBookTop3();
+                ArrayList<BookDto> recommendList = libraryDao.recommendedBookTop3();
                 for (int i = 0; i < recommendList.size(); i++) {
             %>
             <tr>
@@ -184,7 +190,7 @@
                 %>
                 <td>
                     <a href="bookShow?num=<%=recommendList.get(i).getBook_num()%>"><%= recommendList.get(i).getBook_title()%>
-                        <img src="./new.png" width="25" height="25" alt="">
+                        <img src="./image/new.png" width="25" height="25" alt="">
 
                     </a></td>
                 <%
@@ -214,10 +220,12 @@
         </table>
 
     </div>
-
-    <div class="row">
-        <h3> 우수 회원 Top3 </h3>
-        <p align="left"> 도서를 가장 많이한 회원 </p>
+    <hr>
+    <div class="row" style="margin-bottom: 100px">
+        <div class="col" style="margin-top: 10px">
+            <h3 align="center"> 우수 회원 Top3 </h3>
+            <p style="margin-bottom: 10px" align="right"> 도서를 가장 많이한 회원 </p>
+        </div>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -230,8 +238,7 @@
             </thead>
             <tbody>
             <%
-                UserDao userDao = new UserDao();
-                ArrayList<UserDto> excellentUserInfo = userDao.ExcellentUserTop3();
+                ArrayList<UserDto> excellentUserInfo = libraryDao.ExcellentUserTop3();
                 for (int i = 0; i < excellentUserInfo.size(); i++) {
             %>
             <tr>

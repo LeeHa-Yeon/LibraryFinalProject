@@ -7,21 +7,20 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> new Book Add page </title>
+    <title> 희망 도서 신청 페이지 </title>
 </head>
 
 <body>
 <%
-    BookDao bookDao = new BookDao();
-    UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
+
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -33,13 +32,13 @@
         script.println("location.href='login'");
         script.println("</script>");
         script.close();
-    } else{
-            PrintWriter script = response.getWriter();
-            bookDao.applyBook(Integer.parseInt(request.getParameter("applyIsbn")),request.getParameter("applyTitle"),request.getParameter("applyAuthor"),request.getParameter("applyPublisher"),request.getParameter("applyCategory"),userID,request.getParameter("newImage"));
-            script.println("<script>");
-            script.println("alert('도서가 신청되었습니다.')");
-            script.println("location.href='applyList'");
-            script.println("</script>");
+    } else {
+        PrintWriter script = response.getWriter();
+        libraryDao.applyBook(Integer.parseInt(request.getParameter("applyIsbn")), request.getParameter("applyTitle"), request.getParameter("applyAuthor"), request.getParameter("applyPublisher"), request.getParameter("applyCategory"), userID, request.getParameter("newImage"));
+        script.println("<script>");
+        script.println("alert('도서가 신청되었습니다.')");
+        script.println("location.href='applyList'");
+        script.println("</script>");
     }
 
 %>

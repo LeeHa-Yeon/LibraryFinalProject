@@ -1,17 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <%
     BookDao bookDao = new BookDao();
-    UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -37,7 +33,7 @@
         } else {
             BookDto bookInfo = bookDao.getBookInfo(bookID);
             System.out.println("음" + bookID);
-            bookDao.insertReservInfo(Integer.parseInt(request.getParameter("num")), bookInfo.getBook_title(), userID, request.getParameter("bookDate"));
+            libraryDao.insertReservInfo(Integer.parseInt(request.getParameter("num")), bookInfo.getBook_title(), userID, request.getParameter("bookDate"));
             bookDao.updateLendState(bookID, "대출불가(예약중)");
             bookDao.updateReservateState(bookID, "예약불가");
 

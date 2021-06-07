@@ -31,6 +31,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -45,6 +46,7 @@
 
     BookDao bookDao = new BookDao();
     UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
 
     String userID = null;
     if (session.getAttribute("userID") != null) {
@@ -99,8 +101,8 @@
             } else {
                 userDao.changeNormalState(userID);
 
-                ArrayList<LendDto> lendInfo = bookDao.getLendSize(Integer.parseInt(request.getParameter("num")));
-                bookDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
+                ArrayList<LendDto> lendInfo = libraryDao.getLendSize(Integer.parseInt(request.getParameter("num")));
+                libraryDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
                 if(lendInfo.size()==0){
                     bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출가능");
                 }else {
@@ -111,7 +113,7 @@
 
                 if (bookInfo.getIs_book_borrowed().equals("대출가능")) {
                     userDao.lendCntChange(userID, myInfo.getBorrowedLimit() - 1);
-                    bookDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
+                    libraryDao.insertLendInfo(bookID, bookInfo.getBook_title(), userID);
                     bookDao.updateLendState(bookID, "대출불가(대여중)");
                     String nowGradeInfo = userDao.getUserInfo(userID).getGrade();
                     userDao.changePoint(userID, myInfo.getPoint() + 1);

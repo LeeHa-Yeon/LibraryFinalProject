@@ -11,9 +11,9 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.ApplyDto" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.net.URLEncoder" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
 <%@ page import="finalTermProject.DTO.ReservatDto" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 나의 빌린 목록 page </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -59,7 +59,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -117,7 +117,7 @@
 
 <div class="container" style="padding-top: 50px">
     <div class="row">
-        <h3> 빌린 도서 목록 </h3>
+        <h3 style="margin: 30px"> 빌린 도서 목록 </h3>
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -133,7 +133,8 @@
             <tbody>
             <%
                 BookDao myLendInfo = new BookDao();
-                ArrayList<LendDto> list = myLendInfo.getLendInfo(userID);
+                LibraryDao libraryDao = new LibraryDao();
+                ArrayList<LendDto> list = libraryDao.getLendInfo(userID);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
@@ -161,103 +162,7 @@
             </tbody>
         </table>
 
-        <br>
-        <br>
-        <br>
-
-
-        <h3> 나의 신청 도서 </h3>
-        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #ced4da; text-align: center;">번호</th>
-                <th style="background-color: #ced4da; text-align: center;">책 제목</th>
-                <th style="background-color: #ced4da; text-align: center;">저자</th>
-                <th style="background-color: #ced4da; text-align: center;">출판사</th>
-                <th style="background-color: #ced4da; text-align: center;">카테고리</th>
-                <th style="background-color: #ced4da; text-align: center;">신청날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">완료날짜</th>
-                <th style="background-color: #ced4da; text-align: center;">상태</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                ArrayList<ApplyDto> list2 = bookDao.allApplyList(pageNumber);
-                for (int i = 0; i < list2.size(); i++) {
-
-                    if (list2.get(i).getApply_userId().equals(userID)) {
-            %>
-            <tr>
-                <td><%=i + 1%>
-                </td>
-                <%
-                    if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
-                %>
-                <td><%= list2.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
-                <%
-                } else {
-                %>
-                <td><%= list2.get(i).getApply_title()%>
-                </td>
-                <%
-                    }
-                %>
-                <td><%= list2.get(i).getApply_author()%>
-                </td>
-                <td><%= list2.get(i).getApply_publisher()%>
-                </td>
-                <td><%= list2.get(i).getApply_category()%>
-                </td>
-                <td><%= list2.get(i).getApply_Date().substring(0, 10)%>
-                </td>
-                <td><%= list2.get(i).getAccept_Date()%>
-                </td>
-                <td><%= list2.get(i).getApply_state()%>
-                </td>
-            </tr>
-            <%
-                    }
-                }
-            %>
-            </tbody>
-        </table>
-
-        <div>
-            <ul class="pagination justify-content-center mt-3">
-                <li class="page-item">
-                    <%
-                        if (pageNumber <= 0) {
-                    %>
-                    <a class="page-link disabled">이전</a>
-                    <%
-                    } else {
-                    %>
-                    <a class="page-link"
-                       href="./applyList?pageNumber=<%=pageNumber-1%>">이전</a>
-                    <%
-                        }
-                    %>
-                </li>
-                <li class="page-item">
-                    <%
-                        if (list.size() < 6) {
-                    %>
-                    <a class="page-link disabled">다음</a>
-                    <%
-                    } else {
-                    %>
-                    <a class="page-link"
-                       href="./applyList?pageNumber=<%=pageNumber+1%>">다음</a>
-                    <%
-                        }
-                    %>
-                </li>
-            </ul>
-
-        </div>
-        <br>
-        <div>
-            <h3> 예약 도서 목록 </h3>
+            <h3 style="margin: 30px"> 예약 도서 목록 </h3>
             <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
                 <thead>
                 <tr>
@@ -270,7 +175,7 @@
                 </thead>
                 <tbody>
                 <%
-                    BookDao myResiInfo = new BookDao();
+                    LibraryDao myResiInfo = new LibraryDao();
                     ArrayList<ReservatDto> list3 = myResiInfo.getResiInfo(userID);
                     for (int i = 0; i < list3.size(); i++) {
                 %>
@@ -316,10 +221,105 @@
                 %>
                 </tbody>
             </table>
+
+
+
+        <h3 style="margin: 30px"> 나의 신청 도서 </h3>
+        <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #ced4da; text-align: center;">번호</th>
+                <th style="background-color: #ced4da; text-align: center;">책 제목</th>
+                <th style="background-color: #ced4da; text-align: center;">저자</th>
+                <th style="background-color: #ced4da; text-align: center;">출판사</th>
+                <th style="background-color: #ced4da; text-align: center;">카테고리</th>
+                <th style="background-color: #ced4da; text-align: center;">신청날짜</th>
+                <th style="background-color: #ced4da; text-align: center;">완료날짜</th>
+                <th style="background-color: #ced4da; text-align: center;">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                ArrayList<ApplyDto> list2 = libraryDao.allApplyList(pageNumber);
+                for (int i = 0; i < list2.size(); i++) {
+
+                    if (list2.get(i).getApply_userId().equals(userID)) {
+            %>
+            <tr>
+                <td><%=i + 1%>
+                </td>
+                <%
+                    if (bookDao.getDate().substring(0, 10).equals(list2.get(i).getApply_Date().substring(0, 10))) {
+                %>
+                <td><%= list2.get(i).getApply_title()%><img src="./image/new.png" width="25" height="25" alt=""></td>
+                <%
+                } else {
+                %>
+                <td><%= list2.get(i).getApply_title()%>
+                </td>
+                <%
+                    }
+                %>
+                <td><%= list2.get(i).getApply_author()%>
+                </td>
+                <td><%= list2.get(i).getApply_publisher()%>
+                </td>
+                <td><%= list2.get(i).getApply_category()%>
+                </td>
+                <td><%= list2.get(i).getApply_Date().substring(0, 10)%>
+                </td>
+                <td><%= list2.get(i).getAccept_Date()%>
+                </td>
+                <td><%= list2.get(i).getApply_state()%>
+                </td>
+            </tr>
+            <%
+                    }
+                }
+            %>
+            </tbody>
+        </table>
+
+
+
         </div>
+    <center>
+<div>
+    <ul class="pagination justify-content-center mt-3">
+        <li class="page-item">
+            <%
+                if (pageNumber <= 0) {
+            %>
+            <a class="page-link disabled">이전</a>
+            <%
+            } else {
+            %>
+            <a class="page-link"
+               href="./applyList?pageNumber=<%=pageNumber-1%>">이전</a>
+            <%
+                }
+            %>
+        </li>
+        <li class="page-item">
+            <%
+                if (list.size() < 6) {
+            %>
+            <a class="page-link disabled">다음</a>
+            <%
+            } else {
+            %>
+            <a class="page-link"
+               href="./applyList?pageNumber=<%=pageNumber+1%>">다음</a>
+            <%
+                }
+            %>
+        </li>
+    </ul>
+</div></center>
+        <br>
 
 
-    </div>
+
     <center><a href="main" class="btn btn-dark pull-right">HOME</a></center>
 
 </div>

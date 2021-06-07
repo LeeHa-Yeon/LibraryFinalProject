@@ -2,7 +2,7 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
 <%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="java.util.ArrayList" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 매니저 정보 page </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -42,7 +42,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 

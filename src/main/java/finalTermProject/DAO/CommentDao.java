@@ -29,45 +29,8 @@ public class CommentDao {
             e.printStackTrace();
         }
     }
-    public CommentDto getCommentlist(int bookID) {
-        String SQL = "select * from comment where book_id=?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, bookID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                CommentDto commentDto = new CommentDto();
-                commentDto.setComment_num(rs.getInt(1));
-                commentDto.setBook_id(rs.getInt(2));
-                commentDto.setUser_id(rs.getString(3));
-                commentDto.setContent(rs.getString(4));
-                commentDto.setRegister_date(rs.getString(5));
-                return commentDto;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-    public int insertComment(int book_id, String user_id,String content){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar currentTime = Calendar.getInstance();
-
-        String SQL = "insert into comment (book_id,user_id,content,registerDate) values (?,?,?,?)";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, book_id);
-            pstmt.setString(2, user_id);
-            pstmt.setString(3, content);
-            pstmt.setString(4, format.format(currentTime.getTime()));
-            return pstmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -2; // 데이터베이스 오류
-    }
-
+    // 도서에 대한 해당 댓글 가져오기
     public ArrayList<CommentDto> getcommentList(int book_id) {
         String SQL = "SELECT * FROM comment WHERE book_id=?";
         ArrayList<CommentDto> list = new ArrayList<CommentDto>();
@@ -90,7 +53,27 @@ public class CommentDao {
         return list;
     }
 
-    //  코멘트 삭제하기
+    // 댓글 작성
+    public int insertComment(int book_id, String user_id,String content){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar currentTime = Calendar.getInstance();
+
+        String SQL = "insert into comment (book_id,user_id,content,registerDate) values (?,?,?,?)";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, book_id);
+            pstmt.setString(2, user_id);
+            pstmt.setString(3, content);
+            pstmt.setString(4, format.format(currentTime.getTime()));
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -2; // 데이터베이스 오류
+    }
+
+
+    //  댓글 삭제하기
     public int deleteComment(int commentID) {
         String SQL = "delete from comment where num=?";
         try {
@@ -105,7 +88,7 @@ public class CommentDao {
         return -1;
     }
 
-    // 코멘트 수정하기
+    // 댓글 수정하기
     public int modifyComment(int commentNum, String content){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar currentTime = Calendar.getInstance();

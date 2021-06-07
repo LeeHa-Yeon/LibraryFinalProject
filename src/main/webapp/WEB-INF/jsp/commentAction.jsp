@@ -8,7 +8,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DAO.CommentDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
@@ -16,7 +15,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> comment Add page </title>
+    <title> 댓글 달기 </title>
 </head>
 
 <body>

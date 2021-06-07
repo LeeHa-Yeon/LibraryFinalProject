@@ -28,11 +28,10 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
-<%@ page import="java.awt.print.Book" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -46,6 +45,7 @@
 <%
     BookDao bookDao =  new BookDao();
     UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if(session.getAttribute("userID")!=null){
         userID = (String) session.getAttribute("userID");
@@ -76,7 +76,7 @@
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         Date time = new Date();
         String currentDate = format1.format(time);
-        LendDto returnDate = bookDao.selectLendInfo(Integer.parseInt(request.getParameter("num")));
+        LendDto returnDate = libraryDao.selectLendInfo(Integer.parseInt(request.getParameter("num")));
 
         int deadlineDate = bookDao.dateCompareTo(currentDate, returnDate.getReturn_date().substring(0,11));
         if(deadlineDate == 1) { // 연체
@@ -159,7 +159,7 @@
             script.println("location.href='main'");
             script.println("</script>");
         }
-        bookDao.deleteLendBook(Integer.parseInt(request.getParameter("num")));
+        libraryDao.deleteLendBook(Integer.parseInt(request.getParameter("num")));
         userDao.lendCntChange(userID, myInfo.getBorrowedLimit() + 1);
         bookDao.updateLendState(bookID, "대출가능");
 

@@ -9,10 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LibraryManagerController {
 
-    @Autowired
-    UserDao userDao;
-
-
     // 메인페이지이자 도서목록
     @RequestMapping("/managerMain")
     public ModelAndView managerMain(ModelAndView mav){
@@ -48,7 +44,6 @@ public class LibraryManagerController {
         return mav;
     }
 
-    // 도서 수정 액션
     @RequestMapping("/managerModifyBookAction")
     public ModelAndView managerModifyBookAction(ModelAndView mav){
         mav.setViewName("managerModifyBookAction");
@@ -62,31 +57,10 @@ public class LibraryManagerController {
         return mav;
     }
 
-    // 고객 신청 리스트
+    // 고객 희망 신청 리스트
     @RequestMapping("/managerUserLendList")
     public ModelAndView managerUserLendList(ModelAndView mav){
         mav.setViewName("managerUserLendList");
-        return mav;
-    }
-
-    // 관리자 정보
-    @RequestMapping("/managerInfo")
-    public ModelAndView managerInfo(ModelAndView mav){
-        mav.setViewName("managerInfo");
-        return mav;
-    }
-
-    // 모든 고객 관리 리스트
-    @RequestMapping("/managerUserList")
-    public ModelAndView managerUserList(ModelAndView mav){
-        mav.setViewName("managerUserList");
-        return mav;
-    }
-
-    // 모든 고객 관리 리스트
-    @RequestMapping("/deleteUser")
-    public ModelAndView deleteUser(ModelAndView mav){
-        mav.setViewName("deleteUser");
         return mav;
     }
 
@@ -101,6 +75,20 @@ public class LibraryManagerController {
     @RequestMapping("/managerApplyDelete")
     public ModelAndView managerApplyDelete(ModelAndView mav){
         mav.setViewName("managerApplyDelete");
+        return mav;
+    }
+
+    // 모든 고객 관리 리스트
+    @RequestMapping("/managerUserList")
+    public ModelAndView managerUserList(ModelAndView mav){
+        mav.setViewName("managerUserList");
+        return mav;
+    }
+
+    // 회원 삭제
+    @RequestMapping("/deleteUser")
+    public ModelAndView deleteUser(ModelAndView mav){
+        mav.setViewName("deleteUser");
         return mav;
     }
 

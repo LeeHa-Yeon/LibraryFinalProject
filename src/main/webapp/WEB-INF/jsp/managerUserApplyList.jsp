@@ -7,11 +7,11 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="finalTermProject.DTO.ApplyDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 회원 신청 도서 목록 page </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -47,7 +47,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -109,10 +109,13 @@
 
 
 <div class="container" style="padding-top: 50px">
-    <div class="row">
-        <div>
+    <center>
+        <div style="margin-bottom: 20px">
             <h3> 고객 도서 신청 리스트</h3>
         </div>
+    </center>
+    <div class="row">
+
         <table class="table table-striped" style="text-align: center; padding-top: 40px; border: 1px solid #dddddd">
             <thead>
             <tr>
@@ -130,7 +133,8 @@
             <tbody>
             <%
                 BookDao bookDao = new BookDao();
-                ArrayList<ApplyDto> list = bookDao.allApplyList(pageNumber);
+                LibraryDao libraryDao = new LibraryDao();
+                ArrayList<ApplyDto> list = libraryDao.allApplyList(pageNumber);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
@@ -139,7 +143,7 @@
                 <%
                     if (bookDao.getDate().substring(0, 10).equals(list.get(i).getApply_Date().substring(0, 10))) {
                 %>
-                <td><%= list.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
+                <td><%= list.get(i).getApply_title()%><img src="./image/new.png" width="25" height="25" alt=""></td>
                 <%
                 } else {
                 %>

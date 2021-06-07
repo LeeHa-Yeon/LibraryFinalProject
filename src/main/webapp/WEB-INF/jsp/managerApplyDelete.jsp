@@ -1,19 +1,19 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> lend page </title>
+    <title> 희망 도서 삭제 </title>
 </head>
 
 <body>
 <%
-    BookDao bookDao =  new BookDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if(session.getAttribute("userID")!=null){
         userID = (String) session.getAttribute("userID");
@@ -45,7 +45,7 @@
                 script.println("history.back()");
                 script.println("</script>");
             }else{
-                bookDao.deleteApplyBook(applyID);
+                libraryDao.deleteApplyBook(applyID);
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('정상적으로 삭제되었습니다.')");

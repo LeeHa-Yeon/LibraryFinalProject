@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,7 +26,7 @@
 <body>
 <%
     BookDao bookDao = new BookDao();
-    UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");
@@ -111,7 +107,7 @@
 
 } else {
     if (bookInfo.getIs_book_reservation().equals("예약가능")) {
-        String originReturnDate = bookDao.selectLendInfo(Integer.parseInt(request.getParameter("num"))).getReturn_date().substring(0, 11);
+        String originReturnDate = libraryDao.selectLendInfo(Integer.parseInt(request.getParameter("num"))).getReturn_date().substring(0, 11);
         String possibleDate = bookDao.possibleBook(Integer.parseInt(originReturnDate.substring(0, 4)), Integer.parseInt(originReturnDate.substring(5, 7)), Integer.parseInt(originReturnDate.substring(8, 10)));
 %>
 <form method="post" action="reservation" style="margin: 0 auto">
@@ -167,9 +163,6 @@
         }
     }
 %>
-
-<%--    // 내 상태에 예약 취소 가능--%>
-
 
 </body>
 </html>

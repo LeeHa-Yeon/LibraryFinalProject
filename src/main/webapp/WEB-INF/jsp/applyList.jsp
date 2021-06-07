@@ -7,11 +7,10 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.net.URLEncoder" %>
 <%@ page import="finalTermProject.DTO.ApplyDto" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.min.css">
-    <title> login page </title>
+    <title> 희망 도서 목록 화면 </title>
     <style type="text/css">
         a, a:hover {
             color: #004085;
@@ -47,7 +46,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href=""> <img src="./logo.png" width="120" height="50" alt=""><span
+    <a class="navbar-brand" href=""> <img src="./image/logo.png" width="120" height="50" alt=""><span
             style="color:#FFFFFF;"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"></button>
 
@@ -127,7 +126,8 @@
             <tbody>
             <%
                 BookDao bookDao = new BookDao();
-                ArrayList<ApplyDto> list = bookDao.allApplyList(pageNumber);
+                LibraryDao libraryDao = new LibraryDao();
+                ArrayList<ApplyDto> list = libraryDao.allApplyList(pageNumber);
                 for (int i = 0; i < list.size(); i++) {
             %>
             <tr>
@@ -136,7 +136,7 @@
                 <%
                     if (bookDao.getDate().substring(0, 10).equals(list.get(i).getApply_Date().substring(0, 10))) {
                 %>
-                <td><%= list.get(i).getApply_title()%><img src="./new.png" width="25" height="25" alt=""></td>
+                <td><%= list.get(i).getApply_title()%><img src="./image/new.png" width="25" height="25" alt=""></td>
                 <%
                 } else {
                 %>
@@ -243,8 +243,8 @@
                             <input type="text" name="applyCategory" class="form-control" maxlength="40">
                         </div>
                         <div class="form-group">
-                            <label>사진</label>
-                            <input type="text" name="newImage" class="form-control" maxlength="40">
+                            <label>파일</label>
+                            <input type="file" name="newfile" class="form-control" ><br>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>

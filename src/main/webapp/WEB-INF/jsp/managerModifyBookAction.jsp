@@ -23,21 +23,14 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> lend page </title>
+    <title> book modify page </title>
 </head>
 
 <body>

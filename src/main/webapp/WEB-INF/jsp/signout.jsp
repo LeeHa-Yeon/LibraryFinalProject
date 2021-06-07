@@ -8,8 +8,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
-<%@ page import="java.util.ArrayList" %>
 <%
     String userID = null;
     if(session.getAttribute("userID")!=null){

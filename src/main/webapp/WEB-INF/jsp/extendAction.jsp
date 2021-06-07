@@ -2,27 +2,21 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
-<%@ page import="finalTermProject.DTO.LendDto" %>
-
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> lend page </title>
+    <title> 연장하기 </title>
 </head>
 
 <body>
 <%
     BookDao bookDao =  new BookDao();
-    UserDao userDao = new UserDao();
+    LibraryDao libraryDao = new LibraryDao();
     String userID = null;
     if(session.getAttribute("userID")!=null){
         userID = (String) session.getAttribute("userID");
@@ -46,9 +40,9 @@
             script.println("history.back()");
             script.println("</script>");
         }
-        String originReturnDate = bookDao.selectLendInfo(Integer.parseInt(request.getParameter("num"))).getReturn_date().substring(0,11);
+        String originReturnDate = libraryDao.selectLendInfo(Integer.parseInt(request.getParameter("num"))).getReturn_date().substring(0,11);
         String extendDate = bookDao.get7DayAfterDate(Integer.parseInt(originReturnDate.substring(0,4)),Integer.parseInt(originReturnDate.substring(5,7)),Integer.parseInt(originReturnDate.substring(8,10)));
-        bookDao.extensionDate(bookID,extendDate);
+        libraryDao.extensionDate(bookID,extendDate);
         PrintWriter script = response.getWriter();
         script.println("<script>");
         script.println("alert('일주일 연장되었습니다.')");

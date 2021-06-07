@@ -8,9 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DTO.UserDto" %>
 <%@ page import="finalTermProject.DAO.BookDao" %>
-<%@ page import="finalTermProject.DTO.BookDto" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
@@ -23,7 +21,6 @@
 <body>
 <%
     BookDao bookDao = new BookDao();
-    UserDao userDao = new UserDao();
     String userID = null;
     if (session.getAttribute("userID") != null) {
         userID = (String) session.getAttribute("userID");

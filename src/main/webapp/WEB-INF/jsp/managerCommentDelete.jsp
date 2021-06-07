@@ -7,8 +7,6 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="finalTermProject.DAO.UserDao" %>
-<%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DAO.CommentDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
@@ -21,7 +19,6 @@
 
 <body>
 <%
-    UserDao userDao = new UserDao();
     CommentDao commentDao = new CommentDao();
 
     String userID = null;

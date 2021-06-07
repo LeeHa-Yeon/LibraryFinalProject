@@ -31,6 +31,7 @@ public class UserDao {
         }
     }
 
+    // 회원가입 후 member 테이블에 삽입
     public int join(String userID,String userPwd,String userName, String userEmail, String userPhone, String userSSN, String userAddress){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar currentTime = Calendar.getInstance();
@@ -56,6 +57,8 @@ public class UserDao {
         return -2; // 데이터베이스 오류
     }
 
+
+    // 로그인
     public int login(String userID,String userPwd){
         String SQL = "select pwd from member where id = ?";
         try{
@@ -77,6 +80,88 @@ public class UserDao {
         return -2;
     }
 
+    // 아이디 찾기
+    public String findID(String inputName, String inputPhone, String inputSSN){
+        String SQL = "select ID from member where name =? and phone =? and SSN = ? ";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,inputName);
+            pstmt.setString(2,inputPhone);
+            pstmt.setString(3,inputSSN);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return "";
+    }
+
+    // 비밀번호 찾기
+    public String findPWD(String inputID, String inputPhone, String inputSSN){
+        String SQL = "select pwd from member where ID =? and phone =? and SSN = ? ";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,inputID);
+            pstmt.setString(2,inputPhone);
+            pstmt.setString(3,inputSSN);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return "";
+    }
+
+    // 회원탈퇴하기
+    public int signout(String userID){
+        String SQL = "delete from member where ID = ?";
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,userID);
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 데이터베이스 오류
+        return -1;
+    }
+
+
+    // 모든 고객 정보 보기
+    public ArrayList<UserDto> allUserInfo(int pageNumber) {
+        String SQL = "select * from member order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
+        ArrayList<UserDto> list = new ArrayList<UserDto>();
+        try{
+            BookDao bookDao = new BookDao();
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                UserDto userDto = new UserDto();
+                userDto.setID(rs.getString(2));
+                userDto.setPwd(rs.getString(3));
+                userDto.setName(rs.getString(4));
+                userDto.setEmail(rs.getString(5));
+                userDto.setPhone(rs.getString(6));
+                userDto.setAddress(rs.getString(8));
+                userDto.setIsOverdue(rs.getString(10));
+                userDto.setREGDATE(rs.getString(12));
+                userDto.setGrade(rs.getString(13));
+                list.add(userDto);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    // 해당 유저 정보 가져오기
     public UserDto getUserInfo(String myID) {
         String SQL = "select * from member where ID = ?";
         try {
@@ -106,6 +191,7 @@ public class UserDao {
         return null;
     }
 
+    // 회원 정보 수정하기
     public int modifyInfo(String userID, String modifyName, String modifyEmail, String modifyPhone, String modifySSN, String modifyAddress){
         String SQL = "update member set name=?,email=?,phone=?,SSN=?,address=? where ID=?";
         try{
@@ -124,55 +210,7 @@ public class UserDao {
         return -1;
     }
 
-    public String findID(String inputName, String inputPhone, String inputSSN){
-        String SQL = "select ID from member where name =? and phone =? and SSN = ? ";
-        try{
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1,inputName);
-            pstmt.setString(2,inputPhone);
-            pstmt.setString(3,inputSSN);
-            rs = pstmt.executeQuery();
-            if(rs.next()){
-                return rs.getString(1);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        // 데이터베이스 오류
-        return "";
-    }
-
-    public String findPWD(String inputID, String inputPhone, String inputSSN){
-        String SQL = "select pwd from member where ID =? and phone =? and SSN = ? ";
-        try{
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1,inputID);
-            pstmt.setString(2,inputPhone);
-            pstmt.setString(3,inputSSN);
-            rs = pstmt.executeQuery();
-            if(rs.next()){
-                return rs.getString(1);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        // 데이터베이스 오류
-        return "";
-    }
-
-    public int signout(String userID){
-        String SQL = "delete from member where ID = ?";
-        try{
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1,userID);
-            return pstmt.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        // 데이터베이스 오류
-        return -1;
-    }
-
+    // 비밀번호 변경하기
     public int changePwd(String userID, String oldPwd, String newPwd){
         String SQL = "update member set pwd=? where ID=? and pwd=?";
         try{
@@ -188,7 +226,7 @@ public class UserDao {
         return -1;
     }
 
-    //    member의 대여가능횟수 차감
+    // 대여하면 borrowedLimit 차감
     public int lendCntChange(String userID,int changeCnt){
         String SQL = "update member set borrowedLimit=? where ID=?";
         try{
@@ -268,60 +306,6 @@ public class UserDao {
         return -1;
     }
 
-    // 모든 고객 정보 보기
-    public ArrayList<UserDto> allUserInfo(int pageNumber) {
-        String SQL = "select * from member order by num desc limit " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
-        ArrayList<UserDto> list = new ArrayList<UserDto>();
-        try{
-            BookDao bookDao = new BookDao();
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
-            while (rs.next()){
-                UserDto userDto = new UserDto();
-                userDto.setID(rs.getString(2));
-                userDto.setPwd(rs.getString(3));
-                userDto.setName(rs.getString(4));
-                userDto.setEmail(rs.getString(5));
-                userDto.setPhone(rs.getString(6));
-                userDto.setAddress(rs.getString(8));
-                userDto.setIsOverdue(rs.getString(10));
-                userDto.setREGDATE(rs.getString(12));
-                userDto.setGrade(rs.getString(13));
-                list.add(userDto);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    // 우수 고객 정보 보기
-    public ArrayList<UserDto> ExcellentUserTop3() {
-        String SQL = "select * from member where point>99 order by point desc limit 3";
-        ArrayList<UserDto> list = new ArrayList<UserDto>();
-        try{
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
-            while (rs.next()){
-                UserDto userDto = new UserDto();
-                userDto.setID(rs.getString(2));
-                userDto.setPwd(rs.getString(3));
-                userDto.setName(rs.getString(4));
-                userDto.setEmail(rs.getString(5));
-                userDto.setPhone(rs.getString(6));
-                userDto.setAddress(rs.getString(8));
-                userDto.setPoint(rs.getInt(9));
-                userDto.setIsOverdue(rs.getString(10));
-                userDto.setREGDATE(rs.getString(12));
-                userDto.setGrade(rs.getString(13));
-                list.add(userDto);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return list;
-    }
-
     //  회원 삭제하기
     public int deleteUser(String userID){
         String SQL = "delete from member where ID=?";
@@ -336,10 +320,5 @@ public class UserDao {
         // 데이터베이스 오류
         return -1;
     }
-
-
-
-
-
 
 }

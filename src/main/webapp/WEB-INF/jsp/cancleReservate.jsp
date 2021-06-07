@@ -10,18 +10,20 @@
 <%@ page import="finalTermProject.DAO.BookDao" %>
 <%@ page import="finalTermProject.DTO.LendDto" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="finalTermProject.DAO.LibraryDao" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> delete page </title>
+    <title> 예약 취소 페이지 </title>
 </head>
 
 <body>
 <%
     BookDao bookDao = new BookDao();
+    LibraryDao libraryDao = new LibraryDao();
 
     String userID = null;
     if (session.getAttribute("userID") != null) {
@@ -35,8 +37,8 @@
         script.println("</script>");
         script.close();
     } else{
-        ArrayList<LendDto> lendInfo = bookDao.getLendSize(Integer.parseInt(request.getParameter("num")));
-        bookDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
+        ArrayList<LendDto> lendInfo = libraryDao.getLendSize(Integer.parseInt(request.getParameter("num")));
+        libraryDao.cancleReservation(Integer.parseInt(request.getParameter("res_num")));
         if(lendInfo.size()==0){
             bookDao.updateLendState(Integer.parseInt(request.getParameter("num")), "대출가능");
         }else {

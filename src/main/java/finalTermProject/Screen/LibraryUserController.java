@@ -9,9 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LibraryUserController {
 
-    @Autowired
-    BookDao bookDao;
-
     // 메인 페이지
     @RequestMapping("/main")
     public ModelAndView main(ModelAndView mav){
@@ -40,13 +37,6 @@ public class LibraryUserController {
         return mav;
     }
 
-    // 예약하기
-    @RequestMapping("/bookAction")
-    public ModelAndView bookAction(ModelAndView mav){
-        mav.setViewName("bookAction");
-        return mav;
-    }
-
     // 반납하기
     @RequestMapping("/returnAction")
     public ModelAndView returnAction(ModelAndView mav){
@@ -68,55 +58,55 @@ public class LibraryUserController {
         return mav;
     }
 
-    // 신청 액션
+    // 희망 도서 신청하기
     @RequestMapping("/applyNewBook")
     public ModelAndView applyNewBook(ModelAndView mav){
         mav.setViewName("applyNewBook");
         return mav;
     }
 
-    // 신청 액션
+    // 좋아요
     @RequestMapping("/likeAction")
     public ModelAndView likeAction(ModelAndView mav){
         mav.setViewName("likeAction");
         return mav;
     }
 
-    // 댓글달기
+    // 리뷰달기
     @RequestMapping("/commentAction")
     public ModelAndView commentAction(ModelAndView mav){
         mav.setViewName("commentAction");
         return mav;
     }
 
-    // 댓글수정
+    // 리뷰수정
     @RequestMapping("/commentModify")
     public ModelAndView commentModify(ModelAndView mav){
         mav.setViewName("commentModify");
         return mav;
     }
 
-    // 댓글삭제
+    // 리뷰삭제
     @RequestMapping("/commentDelete")
     public ModelAndView commentDelete(ModelAndView mav){
         mav.setViewName("commentDelete");
         return mav;
     }
 
-    // 예약
+    // 예약하기
     @RequestMapping("/reservationAction")
     public ModelAndView reservationAction(ModelAndView mav){
         mav.setViewName("reservationAction");
         return mav;
     }
 
-    // 예약
+    // 예약하게 될 경우 행동
     @RequestMapping("/reservation")
     public ModelAndView reservation(ModelAndView mav){
         mav.setViewName("reservation");
         return mav;
     }
-    // 취소
+    // 예약 취소
     @RequestMapping("/cancleReservate")
     public ModelAndView cancleReservate(ModelAndView mav){
         mav.setViewName("cancleReservate");
