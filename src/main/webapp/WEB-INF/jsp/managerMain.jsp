@@ -222,7 +222,7 @@
                         </div>
                         <div class="form-group">
                             <label>사진</label>
-                            <input type="text" name="newImage" class="form-control" maxlength="40">
+                            <input type="file" name="newImage" class="form-control" ><br>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>

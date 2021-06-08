@@ -5,20 +5,6 @@
   Time: 4:28 오후
   To change this template use File | Settings | File Templates.
 
-//    일단 member 대여가능개수가 존재한다면
-//    book에 해당 대출상태를 확인
-//    만약 대출불가라면 대출이 불가능하다고 알림창 띄우기
-//
-//    만약 대출가능이면
-//    member의 대여가능횟수 차감
-//    lendAllList에 추가하기
-//    book의 대출상태를 대출불가(대여중)로 변경
-//    알림창 대여 완료 앞으로 대여가능한 횟수 띄우기
-//
-//    만약 member유저 대여가능개수가 존재하지 않는다면
-//    lendAllList에 해당 유저의 정보가 존재한다면
-//    대여가능 횟수 초과 / 책을 반납하세요 라는 알림창을 띄우기
-
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <% request.setCharacterEncoding("UTF-8");%>

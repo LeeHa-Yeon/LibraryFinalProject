@@ -32,7 +32,6 @@
             script.println("</script>");
         } else {
             BookDto bookInfo = bookDao.getBookInfo(bookID);
-            System.out.println("음" + bookID);
             libraryDao.insertReservInfo(Integer.parseInt(request.getParameter("num")), bookInfo.getBook_title(), userID, request.getParameter("bookDate"));
             bookDao.updateLendState(bookID, "대출불가(예약중)");
             bookDao.updateReservateState(bookID, "예약불가");
